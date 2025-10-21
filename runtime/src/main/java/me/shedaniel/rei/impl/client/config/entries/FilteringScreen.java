@@ -350,7 +350,7 @@ public class FilteringScreen extends Screen {
     }
     
     @Override
-    public boolean mouseClicked(MouseButtonEvent, boolean b) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean b) {
         if (scrolling.updateDraggingState(event, b))
             return true;
         
