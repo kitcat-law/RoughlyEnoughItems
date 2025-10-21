@@ -38,6 +38,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.CharacterEvent;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Collections;
@@ -169,22 +171,22 @@ public class DefaultDisplayChoosePageWidget extends DraggableWidget {
     }
     
     @Override
-    public boolean charTyped(char char_1, int int_1) {
+    public boolean charTyped(CharacterEvent event) {
         for (Widget widget : widgets)
-            if (widget.charTyped(char_1, int_1))
+            if (widget.charTyped(event))
                 return true;
         return false;
     }
     
     @Override
-    public boolean keyPressed(int int_1, int int_2, int int_3) {
+    public boolean keyPressed(KeyEvent event) {
         if (int_1 == 335 || int_1 == 257) {
             callback.accept(Mth.clamp(getIntFromString(textFieldWidget.getText()).orElse(0) - 1, 0, maxPage - 1));
             ScreenOverlayImpl.getInstance().choosePageWidget = null;
             return true;
         }
         for (Widget widget : widgets)
-            if (widget.keyPressed(int_1, int_2, int_3))
+            if (widget.keyPressed(event))
                 return true;
         return false;
     }
