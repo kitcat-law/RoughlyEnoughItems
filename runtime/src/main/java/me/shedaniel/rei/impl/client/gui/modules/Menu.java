@@ -39,6 +39,9 @@ import me.shedaniel.rei.impl.client.gui.modules.entries.SubMenuEntry;
 import me.shedaniel.rei.impl.client.gui.widget.LateRenderable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.CharacterEvent;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Collection;
@@ -176,17 +179,17 @@ public class Menu extends WidgetWithBounds implements LateRenderable {
     }
     
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (scrolling.updateDraggingState(mouseX, mouseY, button))
+    public boolean mouseClicked(MouseButtonEvent event, boolean b) {
+        if (scrolling.updateDraggingState(event.x(), event.y(), event.button()))
             return true;
-        return super.mouseClicked(mouseX, mouseY, button) || getInnerBounds().contains(mouseX, mouseY);
+        return super.mouseClicked(event, b) || getInnerBounds().contains(event.x(), event.y());
     }
     
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        if (scrolling.mouseDragged(mouseX, mouseY, button, deltaX, deltaY))
+    public boolean mouseDragged(MouseButtonEvent event, double deltaX, double deltaY) {
+        if (scrolling.mouseDragged(event, deltaX, deltaY))
             return true;
-        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+        return super.mouseDragged(event, deltaX, deltaY);
     }
     
     @Override
