@@ -138,14 +138,14 @@ public class DefaultBeaconPaymentCategory implements DisplayCategory<DefaultBeac
         
         @Override
         public boolean mouseClicked(MouseButtonEvent event, boolean initiallyOutside) {
-            if (scrolling.updateDraggingState(event.mouseX(), event.mouseY(), event.button()))
+            if (scrolling.updateDraggingState(event.x(), event.y(), event.button()))
                 return true;
             return super.mouseClicked(event, initiallyOutside);
         }
         
         @Override
         public boolean mouseDragged(MouseButtonEvent event, double deltaX, double deltaY) {
-            if (scrolling.mouseDragged(event.mouseX(), event.mouseY(), event.button(), deltaX, deltaY))
+            if (scrolling.mouseDragged(event.x(), event.y(), event.button(), deltaX, deltaY))
                 return true;
             return super.mouseDragged(event, deltaX, deltaY);
         }
