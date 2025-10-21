@@ -226,10 +226,10 @@ public abstract class EntryListWidget extends WidgetWithBounds implements Overla
     protected abstract void renderEntries(GuiGraphics graphics, int mouseX, int mouseY, float delta);
     
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    public boolean keyPressed(KeyEvent event) {
         if (containsChecked(mouse(), false))
             for (Widget widget : getEntryWidgets())
-                if (widget.keyPressed(keyCode, scanCode, modifiers))
+                if (widget.keyPressed(event))
                     return true;
         return false;
     }
@@ -290,16 +290,16 @@ public abstract class EntryListWidget extends WidgetWithBounds implements Overla
     }
     
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean b) {
         if (!hasSpace()) return false;
         for (Widget widget : children())
-            if (widget.mouseClicked(mouseX, mouseY, button))
+            if (widget.mouseClicked(event, b))
                 return true;
         return false;
     }
     
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+    public boolean mouseReleased(MouseButtonEvent event) {
         if (containsChecked(mouseX, mouseY, false)) {
             LocalPlayer player = minecraft.player;
             if (ClientHelper.getInstance().isCheating() && !(Minecraft.getInstance().screen instanceof DisplayScreen) && player != null && player.containerMenu != null && !player.containerMenu.getCarried().isEmpty() && ClientHelperImpl.getInstance().canDeleteItems()) {
@@ -325,7 +325,7 @@ public abstract class EntryListWidget extends WidgetWithBounds implements Overla
                 }
             }
             for (Widget widget : children())
-                if (widget.mouseReleased(mouseX, mouseY, button))
+                if (widget.mouseReleased(event))
                     return true;
         }
         return false;
