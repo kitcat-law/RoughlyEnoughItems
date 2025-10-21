@@ -501,7 +501,7 @@ public abstract class ScreenOverlayImpl extends ScreenOverlay {
                 REIRuntimeImpl.getSearchField().setFocused(false);
                 return true;
             }
-            if (hintsWidget.mouseClicked(event), b) {
+            if (hintsWidget.mouseClicked(event, b)) {
                 this.setFocused(hintsWidget);
                 if (button == 0)
                     this.setDragging(true);
