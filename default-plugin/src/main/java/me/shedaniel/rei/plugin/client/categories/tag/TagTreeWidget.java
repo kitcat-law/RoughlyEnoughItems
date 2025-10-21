@@ -31,6 +31,8 @@ import me.shedaniel.rei.plugin.common.displays.tag.TagNode;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.core.Holder;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.KeyEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,22 +106,22 @@ public class TagTreeWidget<S, T> extends WidgetWithBounds {
     }
     
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        return super.mouseClicked(mouseX, mouseY, button);
+    public boolean mouseClicked(MouseButtonEvent event, boolean initiallyOutside) {
+        return super.mouseClicked(event, initiallyOutside);
     }
     
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+    public boolean mouseReleased(MouseButtonEvent event) {
         for (GuiEventListener element : children())
-            if (element.mouseReleased(mouseX, mouseY, button))
+            if (element.mouseReleased(event))
                 return true;
         return false;
     }
     
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    public boolean keyPressed(KeyEvent event) {
         for (GuiEventListener element : children())
-            if (element.keyPressed(keyCode, scanCode, modifiers))
+            if (element.keyPressed(event))
                 return true;
         return false;
     }
