@@ -26,7 +26,7 @@ package me.shedaniel.rei.api.client.gui.widgets;
 import me.shedaniel.math.Rectangle;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
-import org.jetbrains.annotations.Nullable
+import org.jetbrains.annotations.Nullable;
 import net.minecraft.client.gui.components.events.ContainerEventHandler;
 import net.minecraft.client.gui.components.events.ContainerEventHandler.KeyEvent;
 import net.minecraft.client.gui.components.events.ContainerEventHandler.CharacterEvent;
