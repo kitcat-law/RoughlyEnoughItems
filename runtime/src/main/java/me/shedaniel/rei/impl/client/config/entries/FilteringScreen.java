@@ -380,6 +380,7 @@ public class FilteringScreen extends Screen {
     
     @Override
     public boolean mouseReleased(MouseButtonEvent event) {
+        int button = event.button();
         if (button == 0 && !points.isEmpty()) {
             PointPair pair = this.points.get(points.size() - 1);
             if (pair.secondPoint() == null) {
