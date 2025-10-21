@@ -36,6 +36,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.CharacterEvent;
 
 public abstract class DisplayedEntryWidget extends EntryWidget {
     public int backupY;
@@ -116,7 +119,8 @@ public abstract class DisplayedEntryWidget extends EntryWidget {
                     
                     KeyMapping[] keyHotbarSlots = Minecraft.getInstance().options.keyHotbarSlots;
                     for (int i = 0; i < keyHotbarSlots.length; i++) {
-                        if (keyHotbarSlots[i].matches(keyCode, scanCode)) {
+                        KeyEvent event = new KeyEvent(keyCode, scanCode, modifiers);
+                        if (keyHotbarSlots[i].matches(event)) {
                             return ClientHelper.getInstance().tryCheatingEntryTo(entry, i);
                         }
                     }
