@@ -148,7 +148,7 @@ public class CurrentDraggingStack extends Widget implements LateRenderable, Drag
     }
     
     @Override
-    public boolean mouseClicked(MouseButtonEvent event) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean b) {
         if (event.button() != 0) {
             return false;
         }
