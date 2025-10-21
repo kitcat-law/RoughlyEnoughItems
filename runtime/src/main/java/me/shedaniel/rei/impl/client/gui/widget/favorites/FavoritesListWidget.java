@@ -294,13 +294,13 @@ public class FavoritesListWidget extends WidgetWithBounds implements DraggableCo
     }
     
     @Override
-    public boolean mouseClicked(MouseButtonEvent event) {
-        if (systemRegion.mouseClicked(event) || region.mouseClicked(event))
+    public boolean mouseClicked(MouseButtonEvent event, boolean b) {
+        if (systemRegion.mouseClicked(event, b) || region.mouseClicked(event, b))
             return true;
         for (Widget widget : children())
-            if (widget.mouseClicked(event))
+            if (widget.mouseClicked(event, b))
                 return true;
-        if (displayHistory.mouseClicked(event))
+        if (displayHistory.mouseClicked(event, b))
             return true;
         return false;
     }
