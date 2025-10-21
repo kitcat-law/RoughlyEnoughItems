@@ -64,6 +64,9 @@ import me.shedaniel.rei.impl.client.gui.widget.region.RegionDraggableStack;
 import me.shedaniel.rei.impl.common.util.RectangleUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.CharacterEvent;
 import org.apache.commons.lang3.mutable.MutableLong;
 import org.apache.commons.lang3.tuple.Triple;
 import org.jetbrains.annotations.ApiStatus;
@@ -263,12 +266,12 @@ public class FavoritesListWidget extends WidgetWithBounds implements DraggableCo
     }
     
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    public boolean keyPressed(KeyEvent event) {
         if (containsMouse(mouse()))
             for (Widget widget : children())
-                if (widget.keyPressed(keyCode, scanCode, modifiers))
+                if (widget.keyPressed(event))
                     return true;
-        if (displayHistory.keyPressed(keyCode, scanCode, modifiers))
+        if (displayHistory.keyPressed(event))
             return true;
         return false;
     }
@@ -291,25 +294,25 @@ public class FavoritesListWidget extends WidgetWithBounds implements DraggableCo
     }
     
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (systemRegion.mouseClicked(mouseX, mouseY, button) || region.mouseClicked(mouseX, mouseY, button))
+    public boolean mouseClicked(MouseButtonEvent event) {
+        if (systemRegion.mouseClicked(event) || region.mouseClicked(event))
             return true;
         for (Widget widget : children())
-            if (widget.mouseClicked(mouseX, mouseY, button))
+            if (widget.mouseClicked(event))
                 return true;
-        if (displayHistory.mouseClicked(mouseX, mouseY, button))
+        if (displayHistory.mouseClicked(event))
             return true;
         return false;
     }
     
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        if (containsMouse(mouseX, mouseY)) {
+    public boolean mouseReleased(MouseButtonEvent event) {
+        if (containsMouse(event.x(), event.y())) {
             for (Widget widget : children())
-                if (widget.mouseReleased(mouseX, mouseY, button))
+                if (widget.mouseReleased(event))
                     return true;
         }
-        if (displayHistory.mouseReleased(mouseX, mouseY, button))
+        if (displayHistory.mouseReleased(event))
             return true;
         return false;
     }
