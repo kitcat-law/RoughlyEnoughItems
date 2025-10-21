@@ -277,7 +277,10 @@ public class OverlaySearchField extends TextFieldWidget implements TextFieldWidg
     }
     
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(MouseButtonEvent event) {
+        double mouseX = event.x();
+        double mouseY = event.y();
+        int button = event.button();
         boolean contains = containsMouse(mouseX, mouseY);
         if (isVisible() && contains && button == 1)
             setText("");
@@ -293,11 +296,12 @@ public class OverlaySearchField extends TextFieldWidget implements TextFieldWidg
             } else {
                 lastClickedDetails = new Tuple<>(System.currentTimeMillis(), new Point(mouseX, mouseY));
             }
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(event);
     }
     
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    public boolean keyPressed(KeyEvent event) {
+        int keyCode = event.key();
         if (this.isVisible() && this.isFocused() && isMain)
             if (keyCode == 257 || keyCode == 335) {
                 addToHistory(getText());
@@ -322,7 +326,7 @@ public class OverlaySearchField extends TextFieldWidget implements TextFieldWidg
                     return true;
                 }
             }
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(event);
     }
     
     @Override
@@ -336,13 +340,13 @@ public class OverlaySearchField extends TextFieldWidget implements TextFieldWidg
     }
     
     @Override
-    public boolean charTyped(char character, int modifiers) {
+    public boolean charTyped(CharacterEvent event) {
         if (isMain && System.currentTimeMillis() - keybindFocusTime < 1000 && keybindFocusKey != -1 && InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), keybindFocusKey)) {
             keybindFocusTime = -1;
             keybindFocusKey = -1;
             return true;
         }
-        return super.charTyped(character, modifiers);
+        return super.charTyped(event);
     }
     
     @Override
