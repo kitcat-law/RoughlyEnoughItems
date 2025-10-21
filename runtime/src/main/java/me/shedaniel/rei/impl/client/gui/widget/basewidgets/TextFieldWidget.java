@@ -351,7 +351,7 @@ public class TextFieldWidget extends WidgetWithBounds implements TickableWidget,
     
     @Override
     public boolean charTyped(CharacterEvent event) {
-        char character = event.char();
+        char character = event.getCharacter();
         if (this.isVisible() && this.isFocused()) {
             if (StringUtil.isAllowedChatCharacter(character) && !(
                     Screen.hasControlDown() && !Screen.hasShiftDown() && !Screen.hasAltDown() && (
