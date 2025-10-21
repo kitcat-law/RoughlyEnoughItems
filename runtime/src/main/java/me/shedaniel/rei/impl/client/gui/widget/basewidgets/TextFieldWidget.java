@@ -353,13 +353,13 @@ public class TextFieldWidget extends WidgetWithBounds implements TickableWidget,
     public boolean charTyped(CharacterEvent event) {
         char character = event.getCharacter();
         if (this.isVisible() && this.isFocused()) {
-            if (StringUtil.isAllowedChatCharacter(character) && !(
+            if (event.isAllowedChatCharacter() && !(
                     Screen.hasControlDown() && !Screen.hasShiftDown() && !Screen.hasAltDown() && (
                             character == 'a' || character == 'c' || character == 'v'
                     )
             )) {
                 if (this.editable) {
-                    this.addText(Character.toString(character));
+                    this.addText(event.toString());
                 }
                 
                 return true;
