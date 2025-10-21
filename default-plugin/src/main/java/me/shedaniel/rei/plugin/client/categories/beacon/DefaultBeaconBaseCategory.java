@@ -44,6 +44,7 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.client.input.MouseButtonEvent;
 
 import java.util.List;
 import java.util.Objects;
@@ -136,17 +137,17 @@ public class DefaultBeaconBaseCategory implements DisplayCategory<DefaultBeaconB
         }
         
         @Override
-        public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            if (scrolling.updateDraggingState(mouseX, mouseY, button))
+        public boolean mouseClicked(MouseButtonEvent event, boolean initiallyOutside) {
+            if (scrolling.updateDraggingState(event.mouseX(), event.mouseY(), event.button()))
                 return true;
-            return super.mouseClicked(mouseX, mouseY, button);
+            return super.mouseClicked(event, initiallyOutside);
         }
         
         @Override
-        public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-            if (scrolling.mouseDragged(mouseX, mouseY, button, deltaX, deltaY))
+        public boolean mouseDragged(MouseButtonEvent event, double deltaX, double deltaY) {
+            if (scrolling.mouseDragged(event.mouseX(), event.mouseY(), event.button(), deltaX, deltaY))
                 return true;
-            return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+            return super.mouseDragged(event, deltaX, deltaY);
         }
         
         @Override
