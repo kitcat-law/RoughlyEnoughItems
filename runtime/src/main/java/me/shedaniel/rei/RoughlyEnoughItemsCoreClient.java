@@ -123,6 +123,7 @@ import org.apache.commons.lang3.mutable.MutableLong;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Stream;
@@ -376,10 +377,13 @@ public class RoughlyEnoughItemsCoreClient {
                 screen.children().removeIf(widget -> widget instanceof ImageButton button && button.sprites.enabled().equals(recipeButtonTex));
             }
         });
-        ClientScreenInputEvent.MOUSE_CLICKED_PRE.register((minecraftClient, screen, mouseX, mouseY, button) -> {
+        ClientScreenInputEvent.MOUSE_CLICKED_PRE.register((minecraftClient, screen, evt) -> {
             isLeftMousePressed = true;
             if (shouldReturn(screen) || screen instanceof DisplayScreen)
                 return EventResult.pass();
+            double mouseX = evtMouseX(evt);
+            double mouseY = evtMouseY(evt);
+            int button = evtButton(evt);
             resetFocused(screen);
             if (getOverlay().mouseClicked(mouseX, mouseY, button)) {
                 if (button == 0) {
@@ -390,10 +394,13 @@ public class RoughlyEnoughItemsCoreClient {
             }
             return EventResult.pass();
         });
-        ClientScreenInputEvent.MOUSE_RELEASED_PRE.register((minecraftClient, screen, mouseX, mouseY, button) -> {
+        ClientScreenInputEvent.MOUSE_RELEASED_PRE.register((minecraftClient, screen, evt) -> {
             isLeftMousePressed = false;
             if (shouldReturn(screen) || screen instanceof DisplayScreen)
                 return EventResult.pass();
+            double mouseX = evtMouseX(evt);
+            double mouseY = evtMouseY(evt);
+            int button = evtButton(evt);
             resetFocused(screen);
             if (REIRuntime.getInstance().isOverlayVisible() && getOverlay().mouseReleased(mouseX, mouseY, button)
                     && resetFocused(screen)) {
@@ -401,9 +408,13 @@ public class RoughlyEnoughItemsCoreClient {
             }
             return EventResult.pass();
         });
-        ClientScreenInputEvent.MOUSE_SCROLLED_PRE.register((minecraftClient, screen, mouseX, mouseY, amountX, amountY) -> {
+        ClientScreenInputEvent.MOUSE_SCROLLED_PRE.register((minecraftClient, screen, evt) -> {
             if (shouldReturn(screen) || screen instanceof DisplayScreen)
                 return EventResult.pass();
+            double mouseX = evtMouseX(evt);
+            double mouseY = evtMouseY(evt);
+            double amountX = evtDeltaX(evt);
+            double amountY = evtDeltaY(evt);
             resetFocused(screen);
             if (REIRuntime.getInstance().isOverlayVisible() && getOverlay().mouseScrolled(mouseX, mouseY, amountX, amountY)
                     && resetFocused(screen))
@@ -426,11 +437,16 @@ public class RoughlyEnoughItemsCoreClient {
                 return EventResult.interruptFalse();
             return EventResult.pass();
         });
-        ClientScreenInputEvent.MOUSE_DRAGGED_PRE.register((minecraftClient, screen, mouseX1, mouseY1, button, mouseX2, mouseY2) -> {
+        ClientScreenInputEvent.MOUSE_DRAGGED_PRE.register((minecraftClient, screen, evt) -> {
             if (shouldReturn(screen) || screen instanceof DisplayScreen)
                 return EventResult.pass();
+            double startX = evtDragStartX(evt);
+            double startY = evtDragStartY(evt);
+            double endX = evtDragEndX(evt);
+            double endY = evtDragEndY(evt);
+            int button = evtButton(evt);
             resetFocused(screen);
-            if (getOverlay().mouseDragged(mouseX1, mouseY1, button, mouseX2, mouseY2)
+            if (getOverlay().mouseDragged(startX, startY, button, endX, endY)
                     && resetFocused(screen))
                 return EventResult.interruptFalse();
             return EventResult.pass();
@@ -475,6 +491,70 @@ public class RoughlyEnoughItemsCoreClient {
         });
     }
     
+    private static double evtMouseX(Object evt) {
+        return evtInvokeDouble(evt, "mouseX", "getMouseX", "x", "getX");
+    }
+
+    private static double evtMouseY(Object evt) {
+        return evtInvokeDouble(evt, "mouseY", "getMouseY", "y", "getY");
+    }
+
+    private static int evtButton(Object evt) {
+        return evtInvokeInt(evt, "button", "getButton");
+    }
+
+    private static double evtDeltaX(Object evt) {
+        return evtInvokeDouble(evt, "deltaX", "getDeltaX", "horizontalAmount", "horizontalDelta", "horizontalScroll", "getHorizontalAmount", "getHorizontalDelta");
+    }
+
+    private static double evtDeltaY(Object evt) {
+        return evtInvokeDouble(evt, "deltaY", "getDeltaY", "verticalAmount", "verticalDelta", "verticalScroll", "getVerticalAmount", "getVerticalDelta");
+    }
+
+    private static double evtDragStartX(Object evt) {
+        return evtInvokeDouble(evt, "startX", "getStartX", "mouseX1", "startMouseX", "originX", "getOriginX");
+    }
+
+    private static double evtDragStartY(Object evt) {
+        return evtInvokeDouble(evt, "startY", "getStartY", "mouseY1", "startMouseY", "originY", "getOriginY");
+    }
+
+    private static double evtDragEndX(Object evt) {
+        return evtInvokeDouble(evt, "endX", "getEndX", "mouseX2", "endMouseX", "targetX", "getTargetX", "mouseX", "getMouseX");
+    }
+
+    private static double evtDragEndY(Object evt) {
+        return evtInvokeDouble(evt, "endY", "getEndY", "mouseY2", "endMouseY", "targetY", "getTargetY", "mouseY", "getMouseY");
+    }
+
+    private static double evtInvokeDouble(Object evt, String... methodNames) {
+        Object value = evtInvoke(evt, methodNames);
+        if (value instanceof Number number) {
+            return number.doubleValue();
+        }
+        throw new IllegalStateException("Unexpected value from " + evt.getClass().getName() + " methods " + Arrays.toString(methodNames));
+    }
+
+    private static int evtInvokeInt(Object evt, String... methodNames) {
+        Object value = evtInvoke(evt, methodNames);
+        if (value instanceof Number number) {
+            return number.intValue();
+        }
+        throw new IllegalStateException("Unexpected value from " + evt.getClass().getName() + " methods " + Arrays.toString(methodNames));
+    }
+
+    private static Object evtInvoke(Object evt, String... methodNames) {
+        Class<?> type = evt.getClass();
+        for (String methodName : methodNames) {
+            try {
+                Method method = type.getMethod(methodName);
+                return method.invoke(evt);
+            } catch (ReflectiveOperationException ignored) {
+            }
+        }
+        throw new IllegalStateException("Unable to resolve method " + Arrays.toString(methodNames) + " on " + type.getName());
+    }
+
     public static boolean resetFocused(Screen screen) {
         if (screen.getFocused() instanceof ScreenOverlay || screen.getFocused() == screen) {
             screen.setFocused(null);

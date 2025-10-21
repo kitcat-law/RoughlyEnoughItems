@@ -119,7 +119,7 @@
     }
   },
   "depends": {
-    "minecraft": "~1.21-",
-    "architectury": ">=15.0.2"
+    "minecraft": ">=1.21.6",
+    "architectury": ">=18.0.0"
   }
 }
