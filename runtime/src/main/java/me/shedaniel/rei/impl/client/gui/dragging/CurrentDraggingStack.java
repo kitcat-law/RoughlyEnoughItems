@@ -145,20 +145,20 @@ public class CurrentDraggingStack extends Widget implements LateRenderable, Drag
     }
     
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (button != 0) {
+    public boolean mouseClicked(MouseButtonEvent event) {
+        if (event.button() != 0) {
             return false;
         }
         drop();
-        DraggableComponent<?> hoveredStack = provider.getHovered(this, mouseX, mouseY);
+        DraggableComponent<?> hoveredStack = provider.getHovered(this, event.x(), event.y());
         if (hoveredStack != null) {
-            entry = new DraggableEntry(hoveredStack, new Point(mouseX, mouseY));
+            entry = new DraggableEntry(hoveredStack, new Point(event.x(), event.y()));
         }
         return false;
     }
     
     @Override
-    public boolean mouseReleased(double d, double e, int i) {
+    public boolean mouseReleased(MouseButtonEvent event) {
         if (i != 0) {
             return false;
         }
@@ -167,8 +167,8 @@ public class CurrentDraggingStack extends Widget implements LateRenderable, Drag
     }
     
     @Override
-    public boolean mouseDragged(double mouseX1, double mouseY1, int button, double mouseX2, double mouseY2) {
-        return button == 0 && entry != null && entry.dragging;
+    public boolean mouseDragged(MouseButtonEvent event, double mouseX2, double mouseY2) {
+        return event.button() == 0 && entry != null && entry.dragging;
     }
     
     public boolean drop() {
