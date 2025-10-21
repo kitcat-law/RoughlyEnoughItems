@@ -38,6 +38,9 @@ import net.minecraft.util.ARGB;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringUtil;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.CharacterEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -268,7 +271,8 @@ public class TextFieldWidget extends WidgetWithBounds implements TickableWidget,
     }
     
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    public boolean keyPressed(KeyEvent event) {
+        int keyCode = event.key();
         if (this.isVisible() && this.isFocused()) {
             this.selecting = Screen.hasShiftDown();
             if (Screen.isSelectAll(keyCode)) {
@@ -346,7 +350,8 @@ public class TextFieldWidget extends WidgetWithBounds implements TickableWidget,
     }
     
     @Override
-    public boolean charTyped(char character, int modifiers) {
+    public boolean charTyped(CharacterEvent event) {
+        char character = event.character();
         if (this.isVisible() && this.isFocused()) {
             if (StringUtil.isAllowedChatCharacter(character) && !(
                     Screen.hasControlDown() && !Screen.hasShiftDown() && !Screen.hasAltDown() && (
@@ -372,7 +377,7 @@ public class TextFieldWidget extends WidgetWithBounds implements TickableWidget,
     }
     
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(MouseButtonEvent event) {
         if (!this.isVisible()) {
             return false;
         } else {
@@ -381,8 +386,8 @@ public class TextFieldWidget extends WidgetWithBounds implements TickableWidget,
                 this.setFocused(hovered);
             }
             
-            if (this.focused && hovered && button == 0) {
-                int int_2 = Mth.floor(mouseX) - this.bounds.x;
+            if (this.focused && hovered && event.button() == 0) {
+                int int_2 = Mth.floor(event.x()) - this.bounds.x;
                 if (this.hasBorder) {
                     int_2 -= 4;
                 }
