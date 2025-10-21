@@ -104,7 +104,7 @@ public class DelegateWidget extends WidgetWithBounds {
     }
     
     @Override
-    public boolean charTyped(KeyEvent event) {
+    public boolean charTyped(CharacterEvent event) {
         return delegate().charTyped(event);
     }
     
