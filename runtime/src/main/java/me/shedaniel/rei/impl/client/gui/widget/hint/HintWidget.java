@@ -43,6 +43,9 @@ import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.CharacterEvent;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -161,14 +164,14 @@ public class HintWidget extends WidgetWithBounds {
     }
     
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (this.okayBounds.contains(mouseX, mouseY)) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean b) {
+        if (this.okayBounds.contains(event.x(), event.y())) {
             this.parent.removeHint(this);
             Widgets.produceClickSound();
             return true;
         }
         
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(event, b);
     }
     
     @Override
