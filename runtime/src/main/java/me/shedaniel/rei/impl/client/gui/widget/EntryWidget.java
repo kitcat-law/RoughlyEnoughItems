@@ -561,13 +561,13 @@ public class EntryWidget extends Slot implements DraggableStackProviderWidget {
     }
     
     @Override
-    public boolean mouseClicked(MouseButtonEvent event) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean b) {
         if (containsMouse(event.x(), event.y())) {
             this.wasClicked = true;
             return true;
         }
         
-        return super.mouseClicked(event);
+        return super.mouseClicked(event, b);
     }
     
     @Override
