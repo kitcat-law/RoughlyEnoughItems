@@ -79,6 +79,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.item.Item;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.CharacterEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -558,13 +561,13 @@ public class EntryWidget extends Slot implements DraggableStackProviderWidget {
     }
     
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (containsMouse(mouseX, mouseY)) {
+    public boolean mouseClicked(MouseButtonEvent event) {
+        if (containsMouse(event.x(), event.y())) {
             this.wasClicked = true;
             return true;
         }
         
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(event);
     }
     
     @Override
@@ -588,11 +591,11 @@ public class EntryWidget extends Slot implements DraggableStackProviderWidget {
     }
     
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+    public boolean mouseReleased(MouseButtonEvent event) {
         if (!interactable)
             return false;
-        if (wasClicked() && containsMouse(mouseX, mouseY)) {
-            if (doAction(mouseX, mouseY, button)) {
+        if (wasClicked() && containsMouse(event.x(), event.y())) {
+            if (doAction(event)) {
                 ((CurrentDraggingStack) DraggingContext.getInstance()).drop();
                 return true;
             }
