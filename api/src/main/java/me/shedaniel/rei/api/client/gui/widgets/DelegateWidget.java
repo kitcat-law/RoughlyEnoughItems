@@ -26,7 +26,11 @@ package me.shedaniel.rei.api.client.gui.widgets;
 import me.shedaniel.math.Rectangle;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Nullable
+import net.minecraft.client.gui.components.events.ContainerEventHandler;
+import net.minecraft.client.gui.components.events.ContainerEventHandler.KeyEvent;
+import net.minecraft.client.gui.components.events.ContainerEventHandler.CharacterEvent;
+import net.minecraft.client.gui.components.events.ContainerEventHandler.MouseButtonEvent;
 
 import java.util.Collections;
 import java.util.List;
@@ -90,29 +94,29 @@ public class DelegateWidget extends WidgetWithBounds {
     }
     
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        return delegate().keyPressed(keyCode, scanCode, modifiers);
+    public boolean keyPressed(KeyEvent event) {
+        return delegate().keyPressed(event);
     }
     
     @Override
-    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-        return delegate().keyReleased(keyCode, scanCode, modifiers);
+    public boolean keyReleased(KeyEvent event) {
+        return delegate().keyReleased(event);
     }
     
     @Override
-    public boolean charTyped(char character, int modifiers) {
-        return delegate().charTyped(character, modifiers);
+    public boolean charTyped(KeyEvent event) {
+        return delegate().charTyped(event);
     }
     
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        return delegate().mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+    public boolean mouseDragged(MouseButtonEvent event, double deltaX, double deltaY) {
+        return delegate().mouseDragged(event, deltaX, deltaY);
     }
     
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+    public boolean mouseReleased(MouseButtonEvent event) {
         this.setDragging(false);
-        return delegate().mouseReleased(mouseX, mouseY, button);
+        return delegate().mouseReleased(event);
     }
     
     @Override
