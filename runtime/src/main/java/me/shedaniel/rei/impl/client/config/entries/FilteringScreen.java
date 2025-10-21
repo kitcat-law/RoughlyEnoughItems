@@ -399,6 +399,7 @@ public class FilteringScreen extends Screen {
     
     @Override
     public boolean keyPressed(KeyEvent event) {
+        int keyCode = event.key();
         for (GuiEventListener element : children())
             if (element.keyPressed(event))
                 return true;
