@@ -458,9 +458,10 @@ public abstract class ScreenOverlayImpl extends ScreenOverlay {
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean b) {
         boolean visible = REIRuntime.getInstance().isOverlayVisible();
+        int button = event.button();
         if (choosePageWidget != null) {
             if (choosePageWidget.containsMouse(event.x(), event.y())) {
-                return choosePageWidget.mouseClicked(event);
+                return choosePageWidget.mouseClicked(event, b);
             } else {
                 choosePageWidget = null;
                 init();
@@ -468,7 +469,7 @@ public abstract class ScreenOverlayImpl extends ScreenOverlay {
             }
         }
         if (!hasSpace()) return false;
-        if (visible && configButton.mouseClicked(event)) {
+        if (visible && configButton.mouseClicked(event, b)) {
             this.setFocused(configButton);
             if (button == 0)
                 this.setDragging(true);
@@ -493,14 +494,14 @@ public abstract class ScreenOverlayImpl extends ScreenOverlay {
         }
         if (visible) {
             Widget menuWidget = menuHolder.widget();
-            if (menuWidget != null && menuWidget.mouseClicked(event)) {
+            if (menuWidget != null && menuWidget.mouseClicked(event, b)) {
                 this.setFocused(menuWidget);
                 if (button == 0)
                     this.setDragging(true);
                 REIRuntimeImpl.getSearchField().setFocused(false);
                 return true;
             }
-            if (hintsWidget.mouseClicked(event)) {
+            if (hintsWidget.mouseClicked(event), b) {
                 this.setFocused(hintsWidget);
                 if (button == 0)
                     this.setDragging(true);
@@ -522,7 +523,7 @@ public abstract class ScreenOverlayImpl extends ScreenOverlay {
             draggingStack.mouseClicked(event);
         }
         for (GuiEventListener element : widgets) {
-            if (element != configButton && element != menuHolder.widget() && element != hintsWidget && element != draggingStack && element.mouseClicked(event)) {
+            if (element != configButton && element != menuHolder.widget() && element != hintsWidget && element != draggingStack && element.mouseClicked(event, b)) {
                 this.setFocused(element);
                 if (button == 0)
                     this.setDragging(true);
@@ -543,6 +544,7 @@ public abstract class ScreenOverlayImpl extends ScreenOverlay {
     
     @Override
     public boolean mouseDragged(MouseButtonEvent event, double deltaX, double deltaY) {
+        int button = event.button();
         if (!REIRuntime.getInstance().isOverlayVisible())
             return false;
         if (!hasSpace()) return false;
