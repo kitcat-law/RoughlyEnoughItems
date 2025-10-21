@@ -48,6 +48,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.client.input.MouseButtonEvent;
 
 import java.util.Collections;
 import java.util.List;
@@ -154,17 +155,17 @@ public class DefaultInformationCategory implements DisplayCategory<DefaultInform
         }
         
         @Override
-        public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            if (scrolling.updateDraggingState(mouseX, mouseY, button))
+        public boolean mouseClicked(MouseButtonEvent event, boolean initiallyOutside) {
+            if (scrolling.updateDraggingState(event.mouseX(), event.mouseY(), event.button()))
                 return true;
-            return super.mouseClicked(mouseX, mouseY, button);
+            return super.mouseClicked(event, initiallyOutside);
         }
         
         @Override
-        public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-            if (scrolling.mouseDragged(mouseX, mouseY, button, deltaX, deltaY))
+        public boolean mouseDragged(MouseButtonEvent event, double deltaX, double deltaY) {
+            if (scrolling.mouseDragged(event.mouseX(), event.mouseY(), event.button(), deltaX, deltaY)) 
                 return true;
-            return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+            return super.mouseDragged(event, deltaX, deltaY);
         }
         
         @Override
