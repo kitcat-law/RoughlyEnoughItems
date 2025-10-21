@@ -302,6 +302,8 @@ public abstract class EntryListWidget extends WidgetWithBounds implements Overla
     
     @Override
     public boolean mouseReleased(MouseButtonEvent event) {
+        double mouseX = event.x();
+        double mouseY = event.y();
         if (containsChecked(mouseX, mouseY, false)) {
             LocalPlayer player = minecraft.player;
             if (ClientHelper.getInstance().isCheating() && !(Minecraft.getInstance().screen instanceof DisplayScreen) && player != null && player.containerMenu != null && !player.containerMenu.getCarried().isEmpty() && ClientHelperImpl.getInstance().canDeleteItems()) {
