@@ -373,6 +373,9 @@ public abstract class ScreenOverlayImpl extends ScreenOverlay {
     
     @Override
     public boolean keyPressed(KeyEvent event) {
+        int keyCode = event.key();
+        int scanCode = event.scancode();
+        int modifiers = event.modifiers();
         if (!hasSpace()) return false;
         if (REIRuntime.getInstance().isOverlayVisible()) {
             if (keyCode == 256 && choosePageWidget != null) {
