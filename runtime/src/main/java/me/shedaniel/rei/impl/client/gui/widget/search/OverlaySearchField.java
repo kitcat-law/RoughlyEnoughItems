@@ -279,7 +279,7 @@ public class OverlaySearchField extends TextFieldWidget implements TextFieldWidg
     }
     
     @Override
-    public boolean mouseClicked(MouseButtonEvent event) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean b) {
         double mouseX = event.x();
         double mouseY = event.y();
         int button = event.button();
@@ -298,7 +298,7 @@ public class OverlaySearchField extends TextFieldWidget implements TextFieldWidg
             } else {
                 lastClickedDetails = new Tuple<>(System.currentTimeMillis(), new Point(mouseX, mouseY));
             }
-        return super.mouseClicked(event);
+        return super.mouseClicked(event, b);
     }
     
     @Override

@@ -42,6 +42,9 @@ import me.shedaniel.rei.impl.client.gui.widget.favorites.FavoritesListWidget;
 import me.shedaniel.rei.impl.display.DisplaySpec;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -77,8 +80,10 @@ public class DisplayCompositeWidget extends DelegateWidgetWithBounds implements 
     }
     
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (super.keyPressed(keyCode, scanCode, modifiers)) {
+    public boolean keyPressed(KeyEvent event) {
+    	int keyCode = event.key();
+    	int scanCode = event.scancode();
+        if (super.keyPressed(event)) {
             return true;
         }
         
@@ -99,8 +104,11 @@ public class DisplayCompositeWidget extends DelegateWidgetWithBounds implements 
     }
     
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        if (super.mouseReleased(mouseX, mouseY, button)) {
+    public boolean mouseReleased(MouseButtonEvent event) {
+    	double mouseX = event.x();
+    	double mouseY = event.y();
+    	int button = event.button();
+        if (super.mouseReleased(event)) {
             return true;
         }
         

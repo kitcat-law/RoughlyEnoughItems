@@ -147,7 +147,7 @@ public class EntryStacksRegionWidget<T extends RegionEntry<T>> extends WidgetWit
     
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean b) {
-        if (scrolling.updateDraggingState(mouseX, mouseY, button)) {
+        if (scrolling.updateDraggingState(event.x(), event.y(), event.button())) {
             return true;
         }
         return super.mouseClicked(event, b);
@@ -164,7 +164,7 @@ public class EntryStacksRegionWidget<T extends RegionEntry<T>> extends WidgetWit
     
     @Override
     public boolean mouseDragged(MouseButtonEvent event, double deltaX, double deltaY) {
-        if (scrolling.mouseDragged(event, deltaX, deltaY))
+        if (scrolling.mouseDragged(event.x(), event.y(), event.button(), deltaX, deltaY))
             return true;
         return super.mouseDragged(event, deltaX, deltaY);
     }

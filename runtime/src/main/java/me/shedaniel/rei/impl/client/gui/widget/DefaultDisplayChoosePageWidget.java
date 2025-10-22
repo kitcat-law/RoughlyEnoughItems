@@ -180,6 +180,7 @@ public class DefaultDisplayChoosePageWidget extends DraggableWidget {
     
     @Override
     public boolean keyPressed(KeyEvent event) {
+    	int int_1 = event.key();
         if (int_1 == 335 || int_1 == 257) {
             callback.accept(Mth.clamp(getIntFromString(textFieldWidget.getText()).orElse(0) - 1, 0, maxPage - 1));
             ScreenOverlayImpl.getInstance().choosePageWidget = null;

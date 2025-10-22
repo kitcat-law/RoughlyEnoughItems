@@ -294,7 +294,7 @@ public class FilteringScreen extends Screen {
     
     @Override
     public boolean mouseDragged(MouseButtonEvent event, double dx, double dy) {
-        if (scrolling.mouseDragged(event, dx, dy))
+        if (scrolling.mouseDragged(event.x(), event.y(), event.button(), dx, dy))
             return true;
         return super.mouseDragged(event, dx, dy);
     }
@@ -352,7 +352,7 @@ public class FilteringScreen extends Screen {
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean b) {
         int button = event.button();
-        if (scrolling.updateDraggingState(event, b))
+        if (scrolling.updateDraggingState(event.x(), event.y(), event.button()))
             return true;
         
         if (getBounds().contains(event.x(), event.y())) {

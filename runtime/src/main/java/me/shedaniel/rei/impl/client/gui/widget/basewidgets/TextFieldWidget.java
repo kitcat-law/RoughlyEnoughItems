@@ -377,7 +377,9 @@ public class TextFieldWidget extends WidgetWithBounds implements TickableWidget,
     }
     
     @Override
-    public boolean mouseClicked(MouseButtonEvent event) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean b) {
+    	double mouseX = event.x();
+    	double mouseY = event.y();
         if (!this.isVisible()) {
             return false;
         } else {

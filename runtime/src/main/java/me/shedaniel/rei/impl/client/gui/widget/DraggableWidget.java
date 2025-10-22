@@ -65,6 +65,7 @@ public abstract class DraggableWidget extends WidgetWithBounds {
     @Override
     public boolean mouseDragged(MouseButtonEvent event, double double_3, double double_4) {
         Point mouse = PointHelper.ofMouse();
+        int int_1 = event.button();
         if (int_1 == 0) {
             if (!dragged) {
                 if (getGrabBounds().contains(mouse)) {
@@ -90,6 +91,7 @@ public abstract class DraggableWidget extends WidgetWithBounds {
     
     @Override
     public boolean mouseReleased(MouseButtonEvent event) {
+    	int int_1 = event.button();
         if (int_1 == 0)
             if (dragged) {
                 dragged = false;

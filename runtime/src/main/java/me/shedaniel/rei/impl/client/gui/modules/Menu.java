@@ -187,7 +187,7 @@ public class Menu extends WidgetWithBounds implements LateRenderable {
     
     @Override
     public boolean mouseDragged(MouseButtonEvent event, double deltaX, double deltaY) {
-        if (scrolling.mouseDragged(event, deltaX, deltaY))
+        if (scrolling.mouseDragged(event.x(), event.y(), event.button(), deltaX, deltaY))
             return true;
         return super.mouseDragged(event, deltaX, deltaY);
     }

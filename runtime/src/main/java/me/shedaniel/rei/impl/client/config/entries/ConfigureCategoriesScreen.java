@@ -42,6 +42,9 @@ import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.CharacterEvent;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -141,10 +144,10 @@ public class ConfigureCategoriesScreen extends Screen {
         }
         
         @Override
-        public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            if (super.mouseClicked(mouseX, mouseY, button))
+        public boolean mouseClicked(MouseButtonEvent event, boolean b) {
+            if (super.mouseClicked(event, b))
                 return true;
-            ListEntry item = getItemAtPosition(mouseX, mouseY);
+            ListEntry item = getItemAtPosition(event.x(), event.y());
             if (item != null) {
                 client.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
                 selectItem(item);

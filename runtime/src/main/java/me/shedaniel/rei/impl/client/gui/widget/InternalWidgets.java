@@ -44,6 +44,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
@@ -108,15 +110,15 @@ public final class InternalWidgets {
             }
             
             @Override
-            public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-                if (displaySupplier.get().getDisplayLocation().isPresent() && ConfigObject.getInstance().getCopyRecipeIdentifierKeybind().matchesKey(keyCode, scanCode) && containsMouse(PointHelper.ofMouse())) {
+            public boolean keyPressed(KeyEvent event) {
+                if (displaySupplier.get().getDisplayLocation().isPresent() && ConfigObject.getInstance().getCopyRecipeIdentifierKeybind().matchesKey(event.key(), event.scancode()) && containsMouse(PointHelper.ofMouse())) {
                     minecraft.keyboardHandler.setClipboard(displaySupplier.get().getDisplayLocation().get().toString());
                     if (ConfigObject.getInstance().isToastDisplayedOnCopyIdentifier()) {
                         CopyRecipeIdentifierToast.addToast(I18n.get("msg.rei.copied_recipe_id"), I18n.get("msg.rei.recipe_id_details", displaySupplier.get().getDisplayLocation().get().toString()));
                     }
                     return true;
                 } else if (ConfigObject.getInstance().isFavoritesEnabled() && containsMouse(PointHelper.ofMouse())) {
-                    if (ConfigObject.getInstance().getFavoriteKeyCode().matchesKey(keyCode, scanCode)) {
+                    if (ConfigObject.getInstance().getFavoriteKeyCode().matchesKey(event.key(), event.scancode())) {
                         FavoritesListWidget favoritesListWidget = ScreenOverlayImpl.getFavoritesListWidget();
                         
                         if (favoritesListWidget != null) {
@@ -126,11 +128,12 @@ public final class InternalWidgets {
                     }
                 }
                 
-                return super.keyPressed(keyCode, scanCode, modifiers);
+                return super.keyPressed(event);
             }
             
             @Override
-            public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            public boolean mouseClicked(MouseButtonEvent event, boolean b) {
+            	int button = event.button();
                 if (displaySupplier.get().getDisplayLocation().isPresent() && ConfigObject.getInstance().getCopyRecipeIdentifierKeybind().matchesMouse(button) && containsMouse(PointHelper.ofMouse())) {
                     minecraft.keyboardHandler.setClipboard(displaySupplier.get().getDisplayLocation().get().toString());
                     if (ConfigObject.getInstance().isToastDisplayedOnCopyIdentifier()) {
@@ -148,7 +151,7 @@ public final class InternalWidgets {
                     }
                 }
                 
-                return super.mouseClicked(mouseX, mouseY, button);
+                return super.mouseClicked(event, b);
             }
         };
     }

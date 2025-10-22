@@ -48,6 +48,9 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.CharacterEvent;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
@@ -275,10 +278,13 @@ public class CustomCollapsibleEntrySelectionScreen extends Screen {
     }
     
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dx, double dy) {
+    public boolean mouseDragged(MouseButtonEvent event, double dx, double dy) {
+    	double mouseX = event.x();
+    	double mouseY = event.y();
+    	int button = event.button();
         if (scrolling.mouseDragged(mouseX, mouseY, button, dx, dy))
             return true;
-        return super.mouseDragged(mouseX, mouseY, button, dx, dy);
+        return super.mouseDragged(event, dx, dy);
     }
     
     private void updatePosition(float delta) {
@@ -332,21 +338,24 @@ public class CustomCollapsibleEntrySelectionScreen extends Screen {
     }
     
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean b) {
+    	double mouseX = event.x();
+    	double mouseY = event.y();
+    	int button = event.button();
         if (scrolling.updateDraggingState(mouseX, mouseY, button))
             return true;
         
         if (getBounds().contains(mouseX, mouseY)) {
-            if (searchField.mouseClicked(mouseX, mouseY, button)) {
+            if (searchField.mouseClicked(event, b)) {
                 this.points.clear();
                 return true;
-            } else if (selectAllButton.mouseClicked(mouseX, mouseY, button)) {
+            } else if (selectAllButton.mouseClicked(event, b)) {
                 return true;
-            } else if (selectNoneButton.mouseClicked(mouseX, mouseY, button)) {
+            } else if (selectNoneButton.mouseClicked(event, b)) {
                 return true;
-            } else if (addButton.mouseClicked(mouseX, mouseY, button)) {
+            } else if (addButton.mouseClicked(event, b)) {
                 return true;
-            } else if (removeButton.mouseClicked(mouseX, mouseY, button)) {
+            } else if (removeButton.mouseClicked(event, b)) {
                 return true;
             } else if (button == 0) {
                 if (!Screen.hasShiftDown()) {
@@ -357,37 +366,38 @@ public class CustomCollapsibleEntrySelectionScreen extends Screen {
             }
         }
         
-        return backButton.mouseClicked(mouseX, mouseY, button);
+        return backButton.mouseClicked(event, b);
     }
     
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        if (button == 0 && !points.isEmpty()) {
+    public boolean mouseReleased(MouseButtonEvent event) {
+        if (event.button() == 0 && !points.isEmpty()) {
             PointPair pair = this.points.get(points.size() - 1);
             if (pair.secondPoint() == null) {
-                this.points.set(points.size() - 1, new PointPair(pair.firstPoint(), new Point(mouseX, mouseY + scrolling.scrollAmount())));
+                this.points.set(points.size() - 1, new PointPair(pair.firstPoint(), new Point(event.x(), event.y() + scrolling.scrollAmount())));
                 return true;
             }
         }
         
-        return super.mouseReleased(mouseX, mouseY, button);
+        return super.mouseReleased(event);
     }
     
     @Override
-    public boolean charTyped(char chr, int keyCode) {
+    public boolean charTyped(CharacterEvent event) {
         for (GuiEventListener element : children()) {
-            if (element.charTyped(chr, keyCode)) {
+            if (element.charTyped(event)) {
                 return true;
             }
         }
         
-        return super.charTyped(chr, keyCode);
+        return super.charTyped(event);
     }
     
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    public boolean keyPressed(KeyEvent event) {
+    	int keyCode = event.key();
         for (GuiEventListener element : children()) {
-            if (element.keyPressed(keyCode, scanCode, modifiers)) {
+            if (element.keyPressed(event)) {
                 return true;
             }
         }

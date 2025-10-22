@@ -682,7 +682,7 @@ public class EntryWidget extends Slot implements DraggableStackProviderWidget {
     @Override
     public boolean keyPressed(KeyEvent event) {
         if (containsMouse(mouse())) {
-            return keyPressedIgnoreContains(event);
+            return keyPressedIgnoreContains(event.key(), event.scancode(), event.modifiers());
         }
         
         return false;

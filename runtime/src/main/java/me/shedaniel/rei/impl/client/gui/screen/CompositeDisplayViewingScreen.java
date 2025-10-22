@@ -52,6 +52,9 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.CharacterEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -187,7 +190,10 @@ public class CompositeDisplayViewingScreen extends AbstractDisplayViewingScreen 
     }
     
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean b) {
+    	double mouseX = event.x();
+    	double mouseY = event.y();
+    	int button = event.button();
         if (scrolling.updateDraggingState(mouseX, mouseY, button)) {
             scrollBarAlpha = 1;
             return true;
@@ -213,13 +219,13 @@ public class CompositeDisplayViewingScreen extends AbstractDisplayViewingScreen 
             return true;
         }
         for (GuiEventListener entry : children())
-            if (entry.mouseClicked(mouseX, mouseY, button)) {
+            if (entry.mouseClicked(event, b)) {
                 setFocused(entry);
                 if (button == 0)
                     setDragging(true);
                 return true;
             }
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(event, b);
     }
     
     @Override
@@ -236,11 +242,11 @@ public class CompositeDisplayViewingScreen extends AbstractDisplayViewingScreen 
     }
     
     @Override
-    public boolean charTyped(char char_1, int int_1) {
+    public boolean charTyped(CharacterEvent event) {
         for (GuiEventListener listener : children())
-            if (listener.charTyped(char_1, int_1))
+            if (listener.charTyped(event))
                 return true;
-        return super.charTyped(char_1, int_1);
+        return super.charTyped(event);
     }
     
     @Override
@@ -314,28 +320,31 @@ public class CompositeDisplayViewingScreen extends AbstractDisplayViewingScreen 
     }
     
     @Override
-    public boolean mouseReleased(double double_1, double double_2, int int_1) {
+    public boolean mouseReleased(MouseButtonEvent event) {
         for (GuiEventListener entry : children())
-            if (entry.mouseReleased(double_1, double_2, int_1))
+            if (entry.mouseReleased(event))
                 return true;
-        return super.mouseReleased(double_1, double_2, int_1);
+        return super.mouseReleased(event);
     }
     
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int int_1, double double_3, double double_4) {
-        if (scrolling.mouseDragged(mouseX, mouseY, int_1, double_3, double_4)) {
+    public boolean mouseDragged(MouseButtonEvent event, double double_3, double double_4) {
+        if (scrolling.mouseDragged(event.x(), event.y(), event.button(), double_3, double_4)) {
             scrollBarAlphaFutureTime = System.currentTimeMillis();
             scrollBarAlphaFuture = 1f;
             return true;
         }
         for (GuiEventListener entry : children())
-            if (entry.mouseDragged(mouseX, mouseY, int_1, double_3, double_4))
+            if (entry.mouseDragged(event, double_3, double_4))
                 return true;
-        return super.mouseDragged(mouseX, mouseY, int_1, double_3, double_4);
+        return super.mouseDragged(event, double_3, double_4);
     }
     
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    public boolean keyPressed(KeyEvent event) {
+    	int keyCode = event.key();
+    	int scanCode = event.scancode();
+    	int modifiers = event.modifiers();
         if (ConfigObject.getInstance().getNextPageKeybind().matchesKey(keyCode, scanCode)) {
             if (categoryMap.get(categories.get(selectedCategoryIndex)).size() > 1) {
                 selectedRecipeIndex++;
@@ -356,13 +365,13 @@ public class CompositeDisplayViewingScreen extends AbstractDisplayViewingScreen 
             return false;
         }
         for (GuiEventListener element : children())
-            if (element.keyPressed(keyCode, scanCode, modifiers))
+            if (element.keyPressed(event))
                 return true;
         if (keyCode == 256) {
             Minecraft.getInstance().setScreen(REIRuntime.getInstance().getPreviousScreen());
             return true;
         }
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(event);
     }
     
     private class ButtonListWidget extends Widget {

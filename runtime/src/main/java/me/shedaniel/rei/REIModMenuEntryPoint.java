@@ -24,10 +24,13 @@
 package me.shedaniel.rei;
 
 import dev.architectury.platform.Platform;
+import dev.architectury.platform.Mod;
+import dev.architectury.platform.client.ConfigurationScreenRegistry;
 import me.shedaniel.rei.api.client.config.ConfigManager;
 
 public class REIModMenuEntryPoint {
     public void onInitializeClient() {
-        Platform.getMod("roughlyenoughitems").registerConfigurationScreen(ConfigManager.getInstance()::getConfigScreen);
+        Mod rei = Platform.getMod("roughlyenoughitems");
+        ConfigurationScreenRegistry.register(rei, ConfigManager.getInstance()::getConfigScreen);
     }
 }

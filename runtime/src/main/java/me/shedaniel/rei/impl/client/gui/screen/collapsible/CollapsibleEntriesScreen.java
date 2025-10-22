@@ -50,6 +50,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -199,13 +200,13 @@ public class CollapsibleEntriesScreen extends Screen {
     }
     
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        return this.listWidget.mouseClicked(mouseX, mouseY, button) || super.mouseClicked(mouseX, mouseY, button);
+    public boolean mouseClicked(MouseButtonEvent event, boolean b) {
+        return this.listWidget.mouseClicked(event, b) || super.mouseClicked(event, b);
     }
     
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        return this.listWidget.mouseDragged(mouseX, mouseY, button, deltaX, deltaY) || super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+    public boolean mouseDragged(MouseButtonEvent event, double deltaX, double deltaY) {
+        return this.listWidget.mouseDragged(event, deltaX, deltaY) || super.mouseDragged(event, deltaX, deltaY);
     }
     
     @Override
@@ -293,13 +294,19 @@ public class CollapsibleEntriesScreen extends Screen {
         }
         
         @Override
-        public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            return this.scroller.updateDraggingState(mouseX, mouseY, button) || super.mouseClicked(mouseX, mouseY, button);
+        public boolean mouseClicked(MouseButtonEvent event, boolean b) {
+        	double mouseX = event.x();
+        	double mouseY = event.y();
+        	int button = event.button();
+            return this.scroller.updateDraggingState(mouseX, mouseY, button) || super.mouseClicked(event, b);
         }
         
         @Override
-        public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-            return this.scroller.mouseDragged(mouseX, mouseY, button, deltaX, deltaY) || super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+        public boolean mouseDragged(MouseButtonEvent event, double deltaX, double deltaY) {
+        	double mouseX = event.x();
+        	double mouseY = event.y();
+        	int button = event.button();
+            return this.scroller.mouseDragged(mouseX, mouseY, button, deltaX, deltaY) || super.mouseDragged(event, deltaX, deltaY);
         }
         
         public void clear() {

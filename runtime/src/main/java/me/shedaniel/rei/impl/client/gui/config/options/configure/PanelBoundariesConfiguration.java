@@ -41,6 +41,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
@@ -105,8 +106,9 @@ public enum PanelBoundariesConfiguration implements OptionValueEntry.Configurato
                 }
                 
                 @Override
-                public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-                    if (horizontalUsePercentage) return super.keyPressed(keyCode, scanCode, modifiers);
+                public boolean keyPressed(KeyEvent event) {
+                	int keyCode = event.key();
+                    if (horizontalUsePercentage) return super.keyPressed(event);
                     boolean leftArrow = keyCode == 263;
                     double newValue;
                     if (leftArrow) {
@@ -114,7 +116,7 @@ public enum PanelBoundariesConfiguration implements OptionValueEntry.Configurato
                     } else if (keyCode == 262) {
                         newValue = Mth.clamp((valueToLimit(value, 50) + 1) / 50.0, 0, 1);
                     } else {
-                        return super.keyPressed(keyCode, scanCode, modifiers);
+                        return super.keyPressed(event);
                     }
                     
                     if (newValue != value) {
@@ -167,8 +169,9 @@ public enum PanelBoundariesConfiguration implements OptionValueEntry.Configurato
                 }
                 
                 @Override
-                public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-                    if (verticalUsePercentage) return super.keyPressed(keyCode, scanCode, modifiers);
+                public boolean keyPressed(KeyEvent event) {
+                	int keyCode = event.key();
+                    if (verticalUsePercentage) return super.keyPressed(event);
                     boolean leftArrow = keyCode == 263;
                     double newValue;
                     if (leftArrow) {
@@ -176,7 +179,7 @@ public enum PanelBoundariesConfiguration implements OptionValueEntry.Configurato
                     } else if (keyCode == 262) {
                         newValue = Mth.clamp((valueToLimit(value, 1000) + 1) / 1000.0, 0, 1);
                     } else {
-                        return super.keyPressed(keyCode, scanCode, modifiers);
+                        return super.keyPressed(event);
                     }
                     
                     if (newValue != value) {

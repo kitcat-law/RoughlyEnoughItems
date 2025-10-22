@@ -37,6 +37,9 @@ import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
@@ -342,14 +345,17 @@ public abstract class DynamicErrorFreeEntryListWidget<E extends DynamicErrorFree
         return this.width / 2 + 124;
     }
     
-    public boolean mouseClicked(double double_1, double double_2, int int_1) {
+    public boolean mouseClicked(MouseButtonEvent event) {
+    	double double_1 = event.x();
+    	double double_2 = event.y();
+    	int int_1 = event.button();
         this.updateScrollingState(double_1, double_2, int_1);
         if (!this.isMouseOver(double_1, double_2)) {
             return false;
         } else {
             E item = this.getItemAtPosition(double_1, double_2);
             if (item != null) {
-                if (item.mouseClicked(double_1, double_2, int_1)) {
+                if (item.mouseClicked(event, false)) {
                     this.setFocused(item);
                     this.setDragging(true);
                     return true;
@@ -363,16 +369,18 @@ public abstract class DynamicErrorFreeEntryListWidget<E extends DynamicErrorFree
         }
     }
     
-    public boolean mouseReleased(double double_1, double double_2, int int_1) {
+    public boolean mouseReleased(MouseButtonEvent event) {
         if (this.getFocused() != null) {
-            this.getFocused().mouseReleased(double_1, double_2, int_1);
+            this.getFocused().mouseReleased(event);
         }
         
         return false;
     }
     
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        if (super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)) {
+    public boolean mouseDragged(MouseButtonEvent event, double deltaX, double deltaY) {
+    	double mouseY = event.y();
+    	int button = event.button();
+        if (super.mouseDragged(event, deltaX, deltaY)) {
             return true;
         } else if (button == 0 && this.scrolling) {
             if (mouseY < (double) this.top) {
@@ -405,7 +413,8 @@ public abstract class DynamicErrorFreeEntryListWidget<E extends DynamicErrorFree
     }
     
     public boolean keyPressed(int int_1, int int_2, int int_3) {
-        if (super.keyPressed(int_1, int_2, int_3)) {
+    	KeyEvent event = new KeyEvent(int_1, int_2, int_3);
+        if (super.keyPressed(event)) {
             return true;
         } else if (int_1 == 264) {
             this.moveSelection(1);

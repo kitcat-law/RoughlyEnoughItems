@@ -520,7 +520,7 @@ public abstract class ScreenOverlayImpl extends ScreenOverlay {
             return false;
         }
         if (draggingStack != null) {
-            draggingStack.mouseClicked(event);
+            draggingStack.mouseClicked(event, b);
         }
         for (GuiEventListener element : widgets) {
             if (element != configButton && element != menuHolder.widget() && element != hintsWidget && element != draggingStack && element.mouseClicked(event, b)) {

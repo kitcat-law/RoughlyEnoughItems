@@ -242,6 +242,7 @@ public class DisplayHistoryWidget extends WidgetWithBounds implements DraggableC
     
     @Override
     public boolean mouseReleased(MouseButtonEvent event) {
+    	int button = event.button();
         if (ignoreNextMouse) {
             ignoreNextMouse = false;
             return true;
@@ -250,7 +251,7 @@ public class DisplayHistoryWidget extends WidgetWithBounds implements DraggableC
         Collection<DisplayEntry> entries = DisplayHistoryManager.INSTANCE.getEntries(this);
         
         for (DisplayEntry entry : entries) {
-            if (entry.mouseReleased(mouseX, mouseY, button)) {
+            if (entry.mouseReleased(event)) {
                 return true;
             }
         }
@@ -282,6 +283,7 @@ public class DisplayHistoryWidget extends WidgetWithBounds implements DraggableC
     public boolean keyPressed(KeyEvent event) {
         int keyCode = event.key();
         int scanCode = event.scancode();
+        int modifiers = event.modifiers();
         Collection<DisplayEntry> entries = DisplayHistoryManager.INSTANCE.getEntries(this);
         
         for (DisplayEntry entry : entries) {
@@ -310,7 +312,7 @@ public class DisplayHistoryWidget extends WidgetWithBounds implements DraggableC
             }
         }
         
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(event);
     }
     
     @Override

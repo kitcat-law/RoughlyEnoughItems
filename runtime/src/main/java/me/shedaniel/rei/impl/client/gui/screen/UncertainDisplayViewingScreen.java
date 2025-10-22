@@ -41,6 +41,8 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -176,15 +178,16 @@ public class UncertainDisplayViewingScreen extends Screen {
     }
     
     @Override
-    public boolean keyPressed(int int_1, int int_2, int int_3) {
-        if (int_1 == 256 || this.minecraft.options.keyInventory.matches(int_1, int_2)) {
+    public boolean keyPressed(KeyEvent event) {
+    	int int_1 = event.key();
+        if (int_1 == 256 || this.minecraft.options.keyInventory.matches(event)) {
             Minecraft.getInstance().setScreen(parent);
             if (parent instanceof AbstractContainerScreen) {
                 REIRuntime.getInstance().getOverlay().get().queueReloadOverlay();
             }
             return true;
         }
-        return super.keyPressed(int_1, int_2, int_3);
+        return super.keyPressed(event);
     }
     
     public class ScreenTypeSelection extends WidgetWithBounds {
@@ -207,8 +210,8 @@ public class UncertainDisplayViewingScreen extends Screen {
         }
         
         @Override
-        public boolean mouseClicked(double double_1, double double_2, int int_1) {
-            if (containsMouse(double_1, double_2)) {
+        public boolean mouseClicked(MouseButtonEvent event, boolean b) {
+            if (containsMouse(event.x(), event.y())) {
                 original = (type == DisplayScreenType.ORIGINAL);
                 if (!isSet) {
                     moveFrameTo(original ? 0 : 1, false, 0);
