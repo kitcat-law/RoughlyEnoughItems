@@ -69,6 +69,9 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.ApiStatus;
 
+import net.minecraft.server.packs.resources.PreparableReloadListener;
+import net.minecraft.server.packs.resources.PreparableReloadListener.PreparationBarrier;
+
 import java.util.Comparator;
 import java.util.ServiceLoader;
 import java.util.function.Consumer;
@@ -156,7 +159,7 @@ public class RoughlyEnoughItemsCore {
             LifecycleEvent.SERVER_STARTED.register(server -> {
                 ReloadManagerImpl.reloadPlugins(null, ReloadInterruptionContext.ofNever());
             });
-            ReloadListenerRegistry.register(PackType.SERVER_DATA, (preparationBarrier, resourceManager, executor, executor2) -> {
+            ReloadListenerRegistry.register(PackType.SERVER_DATA, (resourceManager, executor, preparationBarrier, executor2) -> {
                 return preparationBarrier.wait(Unit.INSTANCE).thenRunAsync(() -> {
                     if (GameInstance.getServer() == null) return;
                     ReloadManagerImpl.reloadPlugins(null, ReloadInterruptionContext.ofNever());

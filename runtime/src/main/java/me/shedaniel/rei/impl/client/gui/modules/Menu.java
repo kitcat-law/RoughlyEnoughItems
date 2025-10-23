@@ -40,8 +40,6 @@ import me.shedaniel.rei.impl.client.gui.widget.LateRenderable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.input.KeyEvent;
-import net.minecraft.client.input.CharacterEvent;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Collection;

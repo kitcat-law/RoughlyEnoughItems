@@ -29,7 +29,6 @@ import me.shedaniel.rei.impl.client.search.method.unihan.UniHanManager;
 import me.shedaniel.rei.impl.common.InternalLogger;
 import org.apache.logging.log4j.Level;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.nio.file.Path;

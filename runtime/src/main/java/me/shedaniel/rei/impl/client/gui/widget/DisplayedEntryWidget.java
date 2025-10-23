@@ -31,14 +31,13 @@ import me.shedaniel.rei.api.client.gui.screen.DisplayScreen;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import me.shedaniel.rei.api.common.util.EntryStacks;
+import me.shedaniel.rei.impl.client.util.ScreenHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.input.KeyEvent;
-import net.minecraft.client.input.CharacterEvent;
 
 public abstract class DisplayedEntryWidget extends EntryWidget {
     public int backupY;
@@ -64,8 +63,9 @@ public abstract class DisplayedEntryWidget extends EntryWidget {
     }
     
     @Override
-    protected boolean doAction(double mouseX, double mouseY, int button) {
-        if (ClientHelper.getInstance().isCheating() && !Screen.hasControlDown() && !(Minecraft.getInstance().screen instanceof DisplayScreen)) {
+    protected boolean doAction(MouseButtonEvent event) {
+    	int button = event.button();
+        if (ClientHelper.getInstance().isCheating() && !event.hasControlDown() && !(Minecraft.getInstance().screen instanceof DisplayScreen)) {
             EntryStack<?> entry = getCurrentEntry().copy();
             if (!entry.isEmpty()) {
                 if (entry.getType() != VanillaEntryTypes.ITEM) {
@@ -75,9 +75,9 @@ public abstract class DisplayedEntryWidget extends EntryWidget {
                 if (entry.getValueType() == ItemStack.class) {
                     boolean all;
                     if (ConfigObject.getInstance().getItemCheatingMode() == ItemCheatingMode.REI_LIKE) {
-                        all = button == 1 || Screen.hasShiftDown();
+                        all = button == 1 || event.hasShiftDown();
                     } else {
-                        all = button != 1 || Screen.hasShiftDown();
+                        all = button != 1 || event.hasShiftDown();
                     }
                     entry.<ItemStack>castValue().setCount(!all ? 1 : entry.<ItemStack>castValue().getMaxStackSize());
                 }
@@ -85,14 +85,14 @@ public abstract class DisplayedEntryWidget extends EntryWidget {
             }
         }
         
-        return super.doAction(mouseX, mouseY, button);
+        return super.doAction(event);
     }
     
     @Override
     public boolean cancelDeleteItems(EntryStack<?> stack) {
         if (!interactable || !ConfigObject.getInstance().isGrabbingItems())
             return super.cancelDeleteItems(stack);
-        if (ClientHelper.getInstance().isCheating() && !Screen.hasControlDown() && !(Minecraft.getInstance().screen instanceof DisplayScreen)) {
+        if (ClientHelper.getInstance().isCheating() && !ScreenHelper.hasControlDown() && !(Minecraft.getInstance().screen instanceof DisplayScreen)) {
             EntryStack<?> entry = getCurrentEntry().copy();
             if (!entry.isEmpty()) {
                 if (entry.getType() != VanillaEntryTypes.ITEM) {

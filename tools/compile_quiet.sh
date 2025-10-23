@@ -18,17 +18,7 @@ mkdir -p build/logs
 FULL_LOG="build/logs/javac_full.log"
 ERRORS_LOG="build/logs/javac_errors_only.log"
 
-# --- Git pull (quiet to terminal; output goes to full log) ---
-echo "▶ updating repo (git pull --rebase)…"
-set +e
-git pull --rebase >> "${FULL_LOG}" 2>&1
-GIT_EXIT=$?
-set -e
-if [ "${GIT_EXIT}" -ne 0 ]; then
-  echo "⚠️  git pull failed (see full log); continuing with local state…"
-fi
-
-echo "▶ building (quiet)…"
+echo "▶ building…"
 set +e
 ./gradlew clean :fabric:build :fabric:remapJar --console=plain --no-daemon \
   --init-script "${INIT_FILE}" \

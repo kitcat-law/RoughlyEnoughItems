@@ -56,7 +56,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.RecipeBookMenu;
 import net.minecraft.world.item.ItemStack;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -74,7 +73,7 @@ public class RoughlyEnoughItemsNetwork {
     public static void onInitialize() {
         NetworkManager.registerReceiver(NetworkManager.c2s(), DELETE_ITEMS_PACKET, Collections.singletonList(new SplitPacketTransformer()), (buf, context) -> {
             ServerPlayer player = (ServerPlayer) context.getPlayer();
-            if (player.getServer().getProfilePermissions(player.getGameProfile()) < player.getServer().getOperatorUserPermissionLevel()) {
+            if (player.level().getServer().getProfilePermissions(player.nameAndId()) < player.level().getServer().operatorUserPermissionLevel()) {
                 player.displayClientMessage(Component.translatable("text.rei.no_permission_cheat").withStyle(ChatFormatting.RED), false);
                 return;
             }
@@ -86,7 +85,7 @@ public class RoughlyEnoughItemsNetwork {
         });
         NetworkManager.registerReceiver(NetworkManager.c2s(), CREATE_ITEMS_PACKET, Collections.singletonList(new SplitPacketTransformer()), (buf, context) -> {
             ServerPlayer player = (ServerPlayer) context.getPlayer();
-            if (player.getServer().getProfilePermissions(player.getGameProfile()) < player.getServer().getOperatorUserPermissionLevel()) {
+            if (player.level().getServer().getProfilePermissions(player.nameAndId()) < player.level().getServer().operatorUserPermissionLevel()) {
                 player.displayClientMessage(Component.translatable("text.rei.no_permission_cheat").withStyle(ChatFormatting.RED), false);
                 return;
             }
@@ -102,7 +101,7 @@ public class RoughlyEnoughItemsNetwork {
         });
         NetworkManager.registerReceiver(NetworkManager.c2s(), CREATE_ITEMS_GRAB_PACKET, Collections.singletonList(new SplitPacketTransformer()), (buf, context) -> {
             ServerPlayer player = (ServerPlayer) context.getPlayer();
-            if (player.getServer().getProfilePermissions(player.getGameProfile()) < player.getServer().getOperatorUserPermissionLevel()) {
+            if (player.level().getServer().getProfilePermissions(player.nameAndId()) < player.level().getServer().operatorUserPermissionLevel()) {
                 player.displayClientMessage(Component.translatable("text.rei.no_permission_cheat").withStyle(ChatFormatting.RED), false);
                 return;
             }
@@ -124,7 +123,7 @@ public class RoughlyEnoughItemsNetwork {
         });
         NetworkManager.registerReceiver(NetworkManager.c2s(), CREATE_ITEMS_HOTBAR_PACKET, Collections.singletonList(new SplitPacketTransformer()), (buf, context) -> {
             ServerPlayer player = (ServerPlayer) context.getPlayer();
-            if (player.getServer().getProfilePermissions(player.getGameProfile()) < player.getServer().getOperatorUserPermissionLevel()) {
+            if (player.level().getServer().getProfilePermissions(player.nameAndId()) < player.level().getServer().operatorUserPermissionLevel()) {
                 player.displayClientMessage(Component.translatable("text.rei.no_permission_cheat").withStyle(ChatFormatting.RED), false);
                 return;
             }

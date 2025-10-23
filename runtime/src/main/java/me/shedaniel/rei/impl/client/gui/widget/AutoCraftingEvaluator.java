@@ -32,7 +32,6 @@ import me.shedaniel.rei.api.client.registry.transfer.TransferHandler;
 import me.shedaniel.rei.api.client.registry.transfer.TransferHandlerRegistry;
 import me.shedaniel.rei.api.client.registry.transfer.TransferHandlerRenderer;
 import me.shedaniel.rei.api.common.display.Display;
-import me.shedaniel.rei.api.common.transfer.info.MenuTransferException;
 import me.shedaniel.rei.api.common.util.CollectionUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;

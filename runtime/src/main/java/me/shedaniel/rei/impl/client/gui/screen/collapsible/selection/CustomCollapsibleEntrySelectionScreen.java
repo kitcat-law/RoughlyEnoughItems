@@ -358,7 +358,7 @@ public class CustomCollapsibleEntrySelectionScreen extends Screen {
             } else if (removeButton.mouseClicked(event, b)) {
                 return true;
             } else if (button == 0) {
-                if (!Screen.hasShiftDown()) {
+                if (!event.hasShiftDown()) {
                     this.points.clear();
                 }
                 this.points.add(new PointPair(new Point(mouseX, mouseY + scrolling.scrollAmount()), null));
@@ -402,14 +402,14 @@ public class CustomCollapsibleEntrySelectionScreen extends Screen {
             }
         }
         
-        if (Screen.isSelectAll(keyCode)) {
+        if (event.isSelectAll()) {
             this.points.clear();
             this.points.add(new PointPair(new Point(-Integer.MAX_VALUE / 2, -Integer.MAX_VALUE / 2), new Point(Integer.MAX_VALUE / 2, Integer.MAX_VALUE / 2)));
             return true;
         }
         
         if (keyCode == 256 && this.shouldCloseOnEsc()) {
-            this.backButton.onPress();
+            this.backButton.onPress(event);
             return true;
         }
         return false;

@@ -179,7 +179,7 @@ public class CollapsibleEntriesScreen extends Screen {
         graphics.drawString(this.font, this.title, this.width / 2 - this.font.width(this.title) / 2, 12, -1);
         
         if (ConfigObject.getInstance().doDebugRenderTimeRequired()) {
-            Component debugText = Component.literal(String.format("%s fps", minecraft.fpsString.split(" ")[0]));
+            Component debugText = Component.literal(String.format("%s fps", String.valueOf(minecraft.getFps()).split(" ")[0]));
             int stringWidth = font.width(debugText);
             graphics.fillGradient(minecraft.screen.width - stringWidth - 2, 32, minecraft.screen.width, 32 + font.lineHeight + 2, -16777216, -16777216);
             graphics.pose().pushMatrix();

@@ -69,6 +69,7 @@ import me.shedaniel.rei.impl.client.gui.widget.DisplayTooltipComponent;
 import me.shedaniel.rei.impl.client.gui.widget.favorites.FavoritesListWidget;
 import me.shedaniel.rei.impl.client.search.method.DefaultInputMethod;
 import me.shedaniel.rei.impl.client.search.method.unihan.*;
+import me.shedaniel.rei.impl.client.util.ScreenHelper;
 import me.shedaniel.rei.impl.common.InternalLogger;
 import me.shedaniel.rei.impl.common.entry.type.EntryRegistryImpl;
 import me.shedaniel.rei.impl.common.entry.type.EntryRegistryListener;
@@ -390,8 +391,8 @@ public class DefaultClientRuntimePlugin implements REIClientPlugin {
         public boolean doAction(int button) {
             Widgets.produceClickSound();
             
-            if (!(Minecraft.getInstance().screen instanceof DisplayScreen) && Screen.hasControlDown()) {
-                AutoCraftingEvaluator.evaluateAutoCrafting(true, Screen.hasShiftDown(), display, Collections::emptyList);
+            if (!(Minecraft.getInstance().screen instanceof DisplayScreen) && ScreenHelper.hasControlDown()) {
+                AutoCraftingEvaluator.evaluateAutoCrafting(true, ScreenHelper.hasShiftDown(), display, Collections::emptyList);
                 return true;
             }
             

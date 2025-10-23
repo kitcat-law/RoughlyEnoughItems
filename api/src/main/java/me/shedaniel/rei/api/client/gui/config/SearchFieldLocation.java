@@ -25,11 +25,7 @@ package me.shedaniel.rei.api.client.gui.config;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
-
-import java.util.Locale;
 
 @Environment(EnvType.CLIENT)
 public enum SearchFieldLocation {

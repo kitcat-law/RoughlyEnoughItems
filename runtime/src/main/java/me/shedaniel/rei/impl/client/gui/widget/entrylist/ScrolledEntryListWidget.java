@@ -35,9 +35,9 @@ import me.shedaniel.rei.api.client.REIRuntime;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.impl.client.gui.widget.EntryRendererManager;
 import me.shedaniel.rei.impl.client.gui.widget.EntryWidget;
+import me.shedaniel.rei.impl.client.util.ScreenHelper;
 import me.shedaniel.rei.impl.common.entry.type.collapsed.CollapsedStack;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.util.Mth;
 
@@ -150,7 +150,7 @@ public class ScrolledEntryListWidget extends CollapsingEntryListWidget {
     
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double amountX, double amountY) {
-        if (containsChecked(mouseX, mouseY, false) && !Screen.hasControlDown() && amountY != 0) {
+        if (containsChecked(mouseX, mouseY, false) && !ScreenHelper.hasControlDown() && amountY != 0) {
             scrolling.offset(ClothConfigInitializer.getScrollStep() * -amountY, true);
             return true;
         }

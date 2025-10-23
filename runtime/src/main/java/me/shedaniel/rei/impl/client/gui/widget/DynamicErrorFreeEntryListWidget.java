@@ -25,7 +25,6 @@ package me.shedaniel.rei.impl.client.gui.widget;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import me.shedaniel.rei.api.client.gui.AbstractContainerEventHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -39,15 +38,11 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Matrix4f;
-
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
@@ -571,18 +566,18 @@ public abstract class DynamicErrorFreeEntryListWidget<E extends DynamicErrorFree
             List<? extends NarratableEntry> list = this.narratables();
             Screen.NarratableSearchResult narratableSearchResult = Screen.findNarratableWidget(list, this.lastNarratable);
             if (narratableSearchResult != null) {
-                if (narratableSearchResult.priority.isTerminal()) {
-                    this.lastNarratable = narratableSearchResult.entry;
+                if (narratableSearchResult.priority().isTerminal()) {
+                    this.lastNarratable = narratableSearchResult.entry();
                 }
                 
                 if (list.size() > 1) {
-                    narrationElementOutput.add(NarratedElementType.POSITION, Component.translatable("narrator.position.object_list", narratableSearchResult.index + 1, list.size()));
-                    if (narratableSearchResult.priority == NarrationPriority.FOCUSED) {
+                    narrationElementOutput.add(NarratedElementType.POSITION, Component.translatable("narrator.position.object_list", narratableSearchResult.index() + 1, list.size()));
+                    if (narratableSearchResult.priority() == NarrationPriority.FOCUSED) {
                         narrationElementOutput.add(NarratedElementType.USAGE, Component.translatable("narration.component_list.usage"));
                     }
                 }
                 
-                narratableSearchResult.entry.updateNarration(narrationElementOutput.nest());
+                narratableSearchResult.entry().updateNarration(narrationElementOutput.nest());
             }
             
         }

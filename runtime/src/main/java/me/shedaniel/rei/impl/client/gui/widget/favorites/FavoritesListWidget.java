@@ -61,12 +61,12 @@ import me.shedaniel.rei.impl.client.gui.widget.favorites.trash.TrashWidget;
 import me.shedaniel.rei.impl.client.gui.widget.region.EntryStacksRegionWidget;
 import me.shedaniel.rei.impl.client.gui.widget.region.RealRegionEntry;
 import me.shedaniel.rei.impl.client.gui.widget.region.RegionDraggableStack;
+import me.shedaniel.rei.impl.client.util.ScreenHelper;
 import me.shedaniel.rei.impl.common.util.RectangleUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.input.KeyEvent;
-import net.minecraft.client.input.CharacterEvent;
 import org.apache.commons.lang3.mutable.MutableLong;
 import org.apache.commons.lang3.tuple.Triple;
 import org.jetbrains.annotations.ApiStatus;
@@ -96,7 +96,7 @@ public class FavoritesListWidget extends WidgetWithBounds implements DraggableCo
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double amountX, double amountY) {
         if (fullBounds.contains(mouseX, mouseY)) {
-            if (Screen.hasControlDown() && amountY != 0) {
+            if (ScreenHelper.hasControlDown() && amountY != 0) {
                 ConfigObjectImpl config = ConfigManagerImpl.getInstance().getConfig();
                 ScreenOverlayImpl.getEntryListWidget().scaleIndicator.setAs(10.0D);
                 if (config.setEntrySize(config.getEntrySize() + amountY * 0.075)) {

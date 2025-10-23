@@ -28,11 +28,11 @@ import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.widgets.TextField;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.WidgetWithBounds;
+import me.shedaniel.rei.impl.client.util.ScreenHelper;
 import net.minecraft.Util;
 import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.FormattedCharSequence;
@@ -169,7 +169,7 @@ public class TextFieldWidget extends WidgetWithBounds implements TickableWidget,
     }
     
     private void erase(int offset) {
-        if (Screen.hasControlDown()) {
+        if (ScreenHelper.hasControlDown()) {
             this.eraseWords(offset);
         } else {
             this.eraseCharacters(offset);
@@ -274,21 +274,21 @@ public class TextFieldWidget extends WidgetWithBounds implements TickableWidget,
     public boolean keyPressed(KeyEvent event) {
         int keyCode = event.key();
         if (this.isVisible() && this.isFocused()) {
-            this.selecting = Screen.hasShiftDown();
-            if (Screen.isSelectAll(keyCode)) {
+            this.selecting = event.hasShiftDown();
+            if (event.isSelectAll()) {
                 this.moveCursorToEnd();
                 this.setHighlightPos(0);
                 return true;
-            } else if (Screen.isCopy(keyCode)) {
+            } else if (event.isCopy()) {
                 minecraft.keyboardHandler.setClipboard(this.getSelectedText());
                 return true;
-            } else if (Screen.isPaste(keyCode)) {
+            } else if (event.isPaste()) {
                 if (this.editable) {
                     this.addText(minecraft.keyboardHandler.getClipboard());
                 }
                 
                 return true;
-            } else if (Screen.isCut(keyCode)) {
+            } else if (event.isCut()) {
                 minecraft.keyboardHandler.setClipboard(this.getSelectedText());
                 if (this.editable) {
                     this.addText("");
@@ -301,7 +301,7 @@ public class TextFieldWidget extends WidgetWithBounds implements TickableWidget,
                         if (this.editable) {
                             this.selecting = false;
                             this.erase(-1);
-                            this.selecting = Screen.hasShiftDown();
+                            this.selecting = event.hasShiftDown();
                         }
                         
                         return true;
@@ -316,12 +316,12 @@ public class TextFieldWidget extends WidgetWithBounds implements TickableWidget,
                         if (this.editable) {
                             this.selecting = false;
                             this.erase(1);
-                            this.selecting = Screen.hasShiftDown();
+                            this.selecting = event.hasShiftDown();
                         }
                         
                         return true;
                     case 262:
-                        if (Screen.hasControlDown()) {
+                        if (event.hasControlDown()) {
                             this.moveCursorTo(this.getWordPosition(1));
                         } else {
                             this.moveCursor(1);
@@ -329,7 +329,7 @@ public class TextFieldWidget extends WidgetWithBounds implements TickableWidget,
                         
                         return true;
                     case 263:
-                        if (Screen.hasControlDown()) {
+                        if (event.hasControlDown()) {
                             this.moveCursorTo(this.getWordPosition(-1));
                         } else {
                             this.moveCursor(-1);
@@ -351,13 +351,11 @@ public class TextFieldWidget extends WidgetWithBounds implements TickableWidget,
     
     @Override
     public boolean charTyped(CharacterEvent event) {
-        char character = event.getCharacter();
         if (this.isVisible() && this.isFocused()) {
             if (event.isAllowedChatCharacter() && !(
-                    Screen.hasControlDown() && !Screen.hasShiftDown() && !Screen.hasAltDown() && (
-                            character == 'a' || character == 'c' || character == 'v'
+                    ScreenHelper.isAnythingNow()
                     )
-            )) {
+            ) {
                 if (this.editable) {
                     this.addText(event.toString());
                 }

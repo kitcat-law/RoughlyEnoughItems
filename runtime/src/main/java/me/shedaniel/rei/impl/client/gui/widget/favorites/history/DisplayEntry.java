@@ -41,7 +41,6 @@ import me.shedaniel.rei.impl.client.ClientHelperImpl;
 import me.shedaniel.rei.impl.client.gui.widget.AutoCraftingEvaluator;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
@@ -251,7 +250,7 @@ public class DisplayEntry extends WidgetWithBounds {
             }
             
             if (button == 0 && plusButton.containsMouse(mouseX + xOffset, mouseY)) {
-                AutoCraftingEvaluator.evaluateAutoCrafting(true, Screen.hasShiftDown(), display, display::provideInternalDisplayIds);
+                AutoCraftingEvaluator.evaluateAutoCrafting(true, event.hasShiftDown(), display, display::provideInternalDisplayIds);
                 Widgets.produceClickSound();
                 return true;
             }

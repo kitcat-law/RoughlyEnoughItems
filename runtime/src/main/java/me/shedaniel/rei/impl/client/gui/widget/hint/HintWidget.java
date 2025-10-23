@@ -44,9 +44,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.input.KeyEvent;
-import net.minecraft.client.input.CharacterEvent;
-
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;

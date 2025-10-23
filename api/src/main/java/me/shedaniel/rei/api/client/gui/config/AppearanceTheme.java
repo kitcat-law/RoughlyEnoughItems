@@ -23,7 +23,6 @@
 
 package me.shedaniel.rei.api.client.gui.config;
 
-import me.shedaniel.clothconfig2.gui.entries.SelectionListEntry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.resources.language.I18n;

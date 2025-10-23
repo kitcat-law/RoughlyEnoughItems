@@ -54,6 +54,7 @@ import me.shedaniel.rei.impl.client.gui.ScreenOverlayImpl;
 import me.shedaniel.rei.impl.client.gui.widget.EntryWidget;
 import me.shedaniel.rei.impl.client.gui.widget.favorites.FavoritesListWidget;
 import me.shedaniel.rei.impl.client.gui.widget.region.RegionRenderingDebugger;
+import me.shedaniel.rei.impl.client.util.ScreenHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -171,7 +172,7 @@ public abstract class EntryListWidget extends WidgetWithBounds implements Overla
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double amountX, double amountY) {
         if (containsChecked(mouseX, mouseY, false) && amountY != 0) {
-            if (Screen.hasControlDown()) {
+            if (ScreenHelper.hasControlDown()) {
                 ConfigObjectImpl config = ConfigManagerImpl.getInstance().getConfig();
                 scaleIndicator.setAs(10.0D);
                 if (config.setEntrySize(config.getEntrySize() + Double.compare(amountY, 0) * 0.05)) {

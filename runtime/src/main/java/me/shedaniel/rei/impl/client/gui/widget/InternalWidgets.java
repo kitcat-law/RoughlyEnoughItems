@@ -38,12 +38,12 @@ import me.shedaniel.rei.impl.client.gui.ScreenOverlayImpl;
 import me.shedaniel.rei.impl.client.gui.toast.CopyRecipeIdentifierToast;
 import me.shedaniel.rei.impl.client.gui.widget.basewidgets.*;
 import me.shedaniel.rei.impl.client.gui.widget.favorites.FavoritesListWidget;
+import me.shedaniel.rei.impl.client.util.ScreenHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.resources.language.I18n;
@@ -68,7 +68,7 @@ public final class InternalWidgets {
         Button autoCraftingButton = Widgets.createButton(rectangle, text)
                 .focusable(false)
                 .onClick(button -> {
-                    AutoCraftingEvaluator.evaluateAutoCrafting(true, Screen.hasShiftDown(), displaySupplier.get(), idsSupplier);
+                    AutoCraftingEvaluator.evaluateAutoCrafting(true, ScreenHelper.hasShiftDown(), displaySupplier.get(), idsSupplier);
                 });
         return new DelegateWidget(autoCraftingButton) {
             final Supplier<AutoCraftingEvaluator.AutoCraftingResult> result = Suppliers.memoizeWithExpiration(

@@ -368,7 +368,7 @@ public class FilteringScreen extends Screen {
             } else if (showButton.mouseClicked(event, b)) {
                 return true;
             } else if (button == 0) {
-                if (!Screen.hasShiftDown()) {
+                if (!event.hasShiftDown()) {
                     this.points.clear();
                 }
                 this.points.add(new PointPair(new Point(event.x(), event.y() + scrolling.scrollAmount()), null));
@@ -405,13 +405,13 @@ public class FilteringScreen extends Screen {
         for (GuiEventListener element : children())
             if (element.keyPressed(event))
                 return true;
-        if (Screen.isSelectAll(keyCode)) {
+        if (event.isSelectAll()) {
             this.points.clear();
             this.points.add(new PointPair(new Point(-Integer.MAX_VALUE / 2, -Integer.MAX_VALUE / 2), new Point(Integer.MAX_VALUE / 2, Integer.MAX_VALUE / 2)));
             return true;
         }
         if (keyCode == 256 && this.shouldCloseOnEsc()) {
-            this.backButton.onPress();
+            this.backButton.onPress(event);
             return true;
         }
         return false;

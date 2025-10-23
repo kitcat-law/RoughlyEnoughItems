@@ -71,7 +71,6 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
@@ -81,7 +80,6 @@ import net.minecraft.util.ARGB;
 import net.minecraft.world.item.Item;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.input.KeyEvent;
-import net.minecraft.client.input.CharacterEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -595,7 +593,7 @@ public class EntryWidget extends Slot implements DraggableStackProviderWidget {
         if (!interactable)
             return false;
         if (wasClicked() && containsMouse(event.x(), event.y())) {
-            if (doAction(event.x(), event.y(), event.button())) {
+            if (doAction(event)) {
                 ((CurrentDraggingStack) DraggingContext.getInstance()).drop();
                 return true;
             }
@@ -603,7 +601,8 @@ public class EntryWidget extends Slot implements DraggableStackProviderWidget {
         return false;
     }
     
-    protected boolean doAction(double mouseX, double mouseY, int button) {
+    protected boolean doAction(MouseButtonEvent event) {
+    	int button = event.button();
         if (interactableFavorites && ConfigObject.getInstance().isFavoritesEnabled() && !getCurrentEntry().isEmpty()) {
             ModifierKeyCode keyCode = ConfigObject.getInstance().getFavoriteKeyCode();
             if (keyCode.matchesMouse(button)) {
@@ -619,13 +618,13 @@ public class EntryWidget extends Slot implements DraggableStackProviderWidget {
             }
         }
         
-        if (!(Minecraft.getInstance().screen instanceof DisplayScreen) && Screen.hasControlDown()) {
+        if (!(Minecraft.getInstance().screen instanceof DisplayScreen) && event.hasControlDown()) {
             try {
                 TransferHandler handler = getTransferHandler(true);
                 
                 if (handler != null) {
                     AbstractContainerScreen<?> containerScreen = REIRuntime.getInstance().getPreviousContainerScreen();
-                    TransferHandler.Context context = TransferHandler.Context.create(true, Screen.hasShiftDown() || button == 1, containerScreen, display);
+                    TransferHandler.Context context = TransferHandler.Context.create(true, event.hasShiftDown() || button == 1, containerScreen, display);
                     TransferHandler.ApplicabilityResult applicabilityResult = handler.checkApplicable(context);
                     if (!applicabilityResult.isApplicable()) return false;
                     TransferHandler.Result transferResult;

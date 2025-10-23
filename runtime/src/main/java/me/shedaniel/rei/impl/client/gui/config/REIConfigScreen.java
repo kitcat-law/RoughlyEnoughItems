@@ -57,6 +57,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.CharacterEvent;
+import net.minecraft.client.input.InputQuirks;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.resources.language.I18n;
@@ -282,7 +283,7 @@ public class REIConfigScreen extends Screen implements ConfigAccess {
             } else if (this.partialKeycode.getType() == InputConstants.Type.KEYSYM) {
                 Modifier modifier = this.partialKeycode.getModifier();
                 int code = this.partialKeycode.getKeyCode().getValue();
-                if (Minecraft.ON_OSX ? code == 343 || code == 347 : code == 341 || code == 345) {
+                if (InputQuirks.REPLACE_CTRL_KEY_WITH_CMD_KEY ? code == 343 || code == 347 : code == 341 || code == 345) {
                     this.partialKeycode.setModifier(Modifier.of(modifier.hasAlt(), true, modifier.hasShift()));
                     this.partialKeycode.setKeyCode(InputConstants.Type.MOUSE.getOrCreate(button));
                     return true;
@@ -362,7 +363,7 @@ public class REIConfigScreen extends Screen implements ConfigAccess {
                     Modifier modifier = this.partialKeycode.getModifier();
                     if (this.partialKeycode.getType() == InputConstants.Type.KEYSYM) {
                         int code = this.partialKeycode.getKeyCode().getValue();
-                        if (Minecraft.ON_OSX ? code == 343 || code == 347 : code == 341 || code == 345) {
+                        if (InputQuirks.REPLACE_CTRL_KEY_WITH_CMD_KEY ? code == 343 || code == 347 : code == 341 || code == 345) {
                             this.partialKeycode.setModifier(Modifier.of(modifier.hasAlt(), true, modifier.hasShift()));
                             this.partialKeycode.setKeyCode(InputConstants.getKey(event));
                             return true;
@@ -381,7 +382,7 @@ public class REIConfigScreen extends Screen implements ConfigAccess {
                         }
                     }
                     
-                    if (Minecraft.ON_OSX ? keyCode == 343 || keyCode == 347 : keyCode == 341 || keyCode == 345) {
+                    if (InputQuirks.REPLACE_CTRL_KEY_WITH_CMD_KEY ? keyCode == 343 || keyCode == 347 : keyCode == 341 || keyCode == 345) {
                         this.partialKeycode.setModifier(Modifier.of(modifier.hasAlt(), true, modifier.hasShift()));
                         return true;
                     }

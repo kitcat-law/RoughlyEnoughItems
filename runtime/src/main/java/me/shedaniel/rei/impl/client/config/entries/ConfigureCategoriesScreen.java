@@ -43,9 +43,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.input.KeyEvent;
-import net.minecraft.client.input.CharacterEvent;
-
 import java.util.*;
 import java.util.function.Supplier;
 

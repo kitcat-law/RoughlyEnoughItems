@@ -28,6 +28,7 @@ import dev.architectury.event.events.client.ClientGuiEvent;
 import me.shedaniel.rei.api.client.gui.screen.DisplayScreen;
 import me.shedaniel.rei.api.client.registry.screen.OverlayRendererProvider;
 import me.shedaniel.rei.impl.common.InternalLogger;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import org.jetbrains.annotations.Nullable;
 
@@ -104,11 +105,11 @@ public enum DefaultScreenOverlayRenderer implements OverlayRendererProvider {
             }
             resetFocused(screen);
             if (rendered[0] == 0 && !(screen instanceof DisplayScreen) && (!(screen instanceof AbstractContainerScreen) || rendered[0] < 2)) {
-                sink.render(graphics, mouseX, mouseY, delta.getRealtimeDeltaTicks());
+                sink.render(graphics, mouseX, mouseY, Minecraft.getInstance().getDeltaTracker().getRealtimeDeltaTicks());
             }
             rendered[0] = 1;
             if (rendered[0] == 1) {
-                sink.lateRender(graphics, mouseX, mouseY, delta.getRealtimeDeltaTicks());
+                sink.lateRender(graphics, mouseX, mouseY, Minecraft.getInstance().getDeltaTracker().getRealtimeDeltaTicks());
             }
             resetFocused(screen);
         };

@@ -44,6 +44,7 @@ import me.shedaniel.rei.impl.client.gui.InternalTextures;
 import me.shedaniel.rei.impl.client.gui.ScreenOverlayImpl;
 import me.shedaniel.rei.impl.client.gui.modules.MenuAccess;
 import me.shedaniel.rei.impl.client.gui.modules.entries.*;
+import me.shedaniel.rei.impl.client.util.ScreenHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -61,7 +62,7 @@ public class ConfigButtonWidget {
         MenuAccess access = overlay.menuAccess();
         Button configButton = Widgets.createButton(bounds, Component.empty())
                 .onClick(button -> {
-                    if (Screen.hasShiftDown() || Screen.hasControlDown()) {
+                    if (ScreenHelper.hasShiftDown() || ScreenHelper.hasControlDown()) {
                         ClientHelper.getInstance().setCheating(!ClientHelper.getInstance().isCheating());
                         return;
                     }

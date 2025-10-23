@@ -24,16 +24,8 @@
 package me.shedaniel.rei.api.common.plugins;
 
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
-import me.shedaniel.rei.api.common.display.DisplaySerializerRegistry;
-import me.shedaniel.rei.api.common.entry.comparison.FluidComparatorRegistry;
-import me.shedaniel.rei.api.common.entry.comparison.ItemComparatorRegistry;
-import me.shedaniel.rei.api.common.entry.settings.EntrySettingsAdapterRegistry;
-import me.shedaniel.rei.api.common.entry.type.EntryTypeRegistry;
-import me.shedaniel.rei.api.common.fluid.FluidSupportProvider;
 import me.shedaniel.rei.api.common.registry.ReloadStage;
 import me.shedaniel.rei.api.common.registry.Reloadable;
-import me.shedaniel.rei.api.common.registry.display.ServerDisplayRegistry;
-import me.shedaniel.rei.api.common.transfer.info.stack.SlotAccessorRegistry;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Collection;

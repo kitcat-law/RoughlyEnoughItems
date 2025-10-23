@@ -320,7 +320,7 @@ public abstract class ScreenOverlayImpl extends ScreenOverlay {
         if (REIRuntime.getInstance().isOverlayVisible()) {
             menuHolder.afterRender();
         }
-        graphics.renderDeferredTooltip();
+        graphics.renderDeferredElements();
     }
     
     public void renderTooltip(GuiGraphics graphics, Tooltip tooltip) {
@@ -511,7 +511,7 @@ public abstract class ScreenOverlayImpl extends ScreenOverlay {
         }
         if (ConfigObject.getInstance().areClickableRecipeArrowsEnabled()) {
             Screen screen = Minecraft.getInstance().screen;
-            ClickArea.ClickAreaContext<Screen> context = createClickAreaContext(event.x(), event.y(), event.button());
+            ClickArea.ClickAreaContext<Screen> context = createClickAreaContext(event.x(), event.y(), screen);
             if (ScreenRegistry.getInstance().executeClickArea((Class<Screen>) screen.getClass(), context)) {
                 return true;
             }

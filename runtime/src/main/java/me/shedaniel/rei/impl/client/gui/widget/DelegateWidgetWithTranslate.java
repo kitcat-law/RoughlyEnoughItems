@@ -86,7 +86,7 @@ public class DelegateWidgetWithTranslate extends DelegateWidget {
     public boolean mouseReleased(MouseButtonEvent event) {
         Vector3f mouse = transformMouse(event.x(), event.y());
         MouseButtonEvent e = new MouseButtonEvent(mouse.x(), mouse.y(), event.buttonInfo());
-        return super.mouseReleased(event);
+        return super.mouseReleased(e);
     }
     
     @Override

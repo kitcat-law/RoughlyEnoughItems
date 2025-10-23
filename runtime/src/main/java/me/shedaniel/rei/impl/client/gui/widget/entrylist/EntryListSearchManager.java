@@ -34,7 +34,6 @@ import me.shedaniel.rei.api.client.registry.entry.EntryRegistry;
 import me.shedaniel.rei.api.client.search.SearchFilter;
 import me.shedaniel.rei.api.client.view.Views;
 import me.shedaniel.rei.api.common.entry.EntryStack;
-import me.shedaniel.rei.api.common.util.EntryStacks;
 import me.shedaniel.rei.impl.client.config.collapsible.CollapsibleConfigManager;
 import me.shedaniel.rei.impl.client.search.AsyncSearchManager;
 import me.shedaniel.rei.impl.client.search.collapsed.CollapsedEntriesCache;

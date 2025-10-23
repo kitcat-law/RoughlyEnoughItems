@@ -55,7 +55,6 @@ import net.minecraft.util.Tuple;
 import net.minecraft.util.Unit;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.input.KeyEvent;
-import net.minecraft.client.input.CharacterEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;

@@ -56,13 +56,13 @@ import me.shedaniel.rei.impl.client.gui.ScreenOverlayImpl;
 import me.shedaniel.rei.impl.client.gui.toast.ExportRecipeIdentifierToast;
 import me.shedaniel.rei.impl.client.gui.widget.*;
 import me.shedaniel.rei.impl.client.gui.widget.basewidgets.PanelWidget;
+import me.shedaniel.rei.impl.client.util.ScreenHelper;
 import me.shedaniel.rei.impl.display.DisplaySpec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.ConfirmScreen;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.CharacterEvent;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
@@ -181,7 +181,7 @@ public class DefaultDisplayViewingScreen extends AbstractDisplayViewingScreen {
                     DefaultDisplayViewingScreen.this.init();
                 }).tooltipLine(Component.translatable("text.rei.previous_page")));
         this.widgets.add(Widgets.createClickableLabel(new Point(bounds.getCenterX(), bounds.getY() + 21), Component.empty(), label -> {
-            if (!Screen.hasShiftDown()) {
+            if (!ScreenHelper.hasShiftDown()) {
                 page = 0;
                 DefaultDisplayViewingScreen.this.init();
             } else {

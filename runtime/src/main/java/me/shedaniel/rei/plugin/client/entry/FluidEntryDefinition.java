@@ -27,7 +27,7 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import dev.architectury.fluid.FluidStack;
-import dev.architectury.hooks.fluid.FluidStackHooks;
+import dev.architectury.hooks.client.fluid.ClientFluidStackHooks;
 import dev.architectury.platform.Platform;
 import dev.architectury.utils.Env;
 import dev.architectury.utils.EnvExecutor;
@@ -68,7 +68,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -209,7 +208,7 @@ public class FluidEntryDefinition implements EntryDefinition<FluidStack>, EntryS
     @Environment(EnvType.CLIENT)
     public static class FluidEntryRenderer implements EntryRenderer<FluidStack> {
         private static final Supplier<TextureAtlasSprite> MISSING_SPRITE = Suppliers.memoize(() -> {
-            TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(TextureAtlas.LOCATION_BLOCKS);
+            TextureAtlas atlas = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(TextureAtlas.LOCATION_BLOCKS);
             return atlas.getSprite(MissingTextureAtlasSprite.getLocation());
         });
         
@@ -221,9 +220,9 @@ public class FluidEntryDefinition implements EntryDefinition<FluidStack>, EntryS
         public void render(EntryStack<FluidStack> entry, GuiGraphics graphics, Rectangle bounds, int mouseX, int mouseY, float delta) {
             FluidStack stack = entry.getValue();
             if (stack.isEmpty()) return;
-            TextureAtlasSprite sprite = FluidStackHooks.getStillTexture(stack);
+            TextureAtlasSprite sprite = ClientFluidStackHooks.getStillTexture(stack);
             if (sprite == null) return;
-            int color = FluidStackHooks.getColor(stack);
+            int color = ClientFluidStackHooks.getColor(stack);
             
             /*SpriteRenderer.beginPass()
                     .setup(immediate, RenderType.solid())
